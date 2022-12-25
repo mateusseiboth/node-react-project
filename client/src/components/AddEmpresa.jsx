@@ -40,11 +40,6 @@ const UserBox = styled(Box)({
 
 const Add = () => {
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = React.useState(true);
-
-  const handleChangeCheck = (event) => {
-    setChecked(event.target.checked);
-  };
 
   const [empresa, setEmpresa] = React.useState('');
 
