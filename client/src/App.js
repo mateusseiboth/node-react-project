@@ -7,7 +7,7 @@ import Add from "./components/AddEmpresa";
 import { useState } from "react";
 
 function App() {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState("dark");
 
   const darkTheme = createTheme({
     palette: {
@@ -23,7 +23,6 @@ function App() {
           <Feed />
           <Rightbar />
         </Stack>
-       
       </Box>
     </ThemeProvider>
   );
