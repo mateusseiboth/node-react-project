@@ -64,9 +64,9 @@ const Post = () => {
     }else{
       ativo = 1
     }
-    axios.put("http://localhost:8086/api/v1/postAtualizaEstado", {
+    axios.put("http://localhost:8086/api/v1/postPromoveUser", {
       "id": id,
-      "ativo": ativo,
+      "nivel": ativo,
     }).then(()=> {
       alert("Nível alterado")
       window.location.reload();
@@ -89,7 +89,7 @@ const Post = () => {
   const [nivel, setNivel] = useState("");
 
 
-  //busca declaracoes no node
+  //busca usuarios no node
   const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
     axios.get("http://localhost:8086/api/v1/getUsers/").then(function (response) {
