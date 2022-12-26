@@ -71,8 +71,8 @@ const Navbar = () => {
       >
      
           <MenuItem component="a" href='/tipoDeclara' >Tipos de declarações</MenuItem>
-          <MenuItem component="a" href='/declaracoes'>Todas as declarações</MenuItem>  
-          <MenuItem componten="a" href='/suasDeclaracao'>Suas declarações</MenuItem>
+          <MenuItem component="a" href='/declaracao'>Todas as declarações</MenuItem>  
+          <MenuItem component="a" href='/suasDeclaracao'>Suas declarações</MenuItem>
           <MenuItem component="a" href='/usuarios'>Usuários</MenuItem>
           <MenuItem component="a" href='/empresas'>Empresas</MenuItem>
           <MenuItem component="a" href='/'>Index</MenuItem>
