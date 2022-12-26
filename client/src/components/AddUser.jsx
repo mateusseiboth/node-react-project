@@ -27,11 +27,10 @@ const SytledModal = styled(Modal)({
 });
 
 const Add = () => {
-  const handleChangeDeclaracao = (event) => {
-    setDeclaracao(event.target.value);
+  const handleChange = (event) => {
+    setNivel(event.target.value);
   };
 
-  const [declaracao, setDeclaracao] = useState("");
 
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
@@ -39,14 +38,15 @@ const Add = () => {
 
   //envia o formulário
   const submitUser = () => {
-    axios.post("http://localhost:8086/api/v1/postDeclaracao",
+    axios.post("http://localhost:8086/api/v1/postUsers",
       {
         "nome": nome,
         "senha": senha,
         "nivel": nivel,
       }).then(() => {
+        console.log(nome, senha, nivel)
         alert("Usuário cadastrado com sucesso!")
-        //window.location.reload(); //atualiza a página
+        window.location.reload(); //atualiza a página
       })
   }
 
@@ -82,7 +82,7 @@ const Add = () => {
           borderRadius={5}
         >
           <Typography variant="h6" color="gray" textAlign="center">
-            Nova Usuário
+            Novo Usuário
           </Typography>
           <Box
             component="form"
@@ -132,6 +132,8 @@ const Add = () => {
                   row
                   aria-labelledby="nivel-row-radio-buttons-group-label"
                   name="row-radio-buttons-group"
+                  value={nivel}
+                  onChange={handleChange}
                 >
                   <FormControlLabel value="1" control={<Radio />} label="Administrador" />
                   <FormControlLabel value="0" control={<Radio />} label="Usuário comum" />

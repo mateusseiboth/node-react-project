@@ -20,7 +20,6 @@ import {
   ButtonGroup,
   Modal,
   TextField,
-  Tooltip,
   Typography,
   Select,
   MenuItem,
@@ -88,7 +87,7 @@ const Post = () => {
       "ativo": ativo,
     }).then(()=> {
       alert("Status alterado")
-      window.location.reload(); 
+      window.location.reload();
     })
   }
 
@@ -113,7 +112,6 @@ const Post = () => {
   };
 
 const [open, setOpen] = useState(false);
-const [editar, setEditar] = useState([]);
 
 //chama declaracoes
 const [declaracao, setDeclaracao] = useState([]);
@@ -133,7 +131,6 @@ useEffect(() => {
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
 
-  
 
   function setModal(linha, estado){
     setOpen(estado)
