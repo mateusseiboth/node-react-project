@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Favorite, FavoriteBorder, MoreVert, Share } from "@mui/icons-material";
 import { styled } from '@mui/material/styles';
 import { DateRange, Add as AddIcon } from "@mui/icons-material";
@@ -13,12 +15,9 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
   tableCellClasses,
-  Checkbox,
-  IconButton,
-  Typography,
+  Box,
   Button,
   Container,
   ButtonGroup,
@@ -44,18 +43,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(nome, email, telefone, declara, cnpj, status) {
-  return { nome, email, telefone, declara, cnpj, status };
-}
-
-const rows = [
-  createData('Empresa1', 'empresa@empresa.com', '67 9999-9999', 'SeLeuMamou', '98645414274/0001', 'Ativo'),
-  createData('Empresa2', 'empresa@empresa.com', '67 9999-9999', 'SeLeuMamou', '98645414274/0001', 'Ativo'),
-  createData('Empresa3', 'empresa@empresa.com', '67 9999-9999', 'SeLeuMamou', '98645414274/0001', 'Ativo'),
-  createData('Empresa4', 'empresa@empresa.com', '67 9999-9999', 'SeLeuMamou', '98645414274/0001', 'Ativo'),
-  createData('Empresa5', 'empresa@empresa.com', '67 9999-9999', 'SeLeuMamou', '98645414274/0001', 'Ativo'),
-];
 const Post = () => {
+
+const [empresas, setEmpresas] = useState([]);
+
+useEffect(() => {
+    axios.get("http://localhost:8086/api/v1/getEmpresas/").then(function(response){
+    setEmpresas(response.data)
+    console.log(response.data)
+  })
+
+}, [])
   return (
     <Card sx={{ margin: 1 }}>
       <CardHeader
@@ -66,42 +64,46 @@ const Post = () => {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
+            <StyledTableCell>ID</StyledTableCell>
             <StyledTableCell>Nome da empresa</StyledTableCell>
             <StyledTableCell align="center">Email</StyledTableCell>
-            <StyledTableCell align="center">Telefone&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="center">Declarações feitas&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="center">CNPJ&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="center">Status&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="center">Telefone</StyledTableCell>
+            <StyledTableCell align="center">Declarações feitas</StyledTableCell>
+            <StyledTableCell align="center">CNPJ</StyledTableCell>
+            <StyledTableCell align="center">Status</StyledTableCell>
             <StyledTableCell align="center">Opções</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell align="right">{row.nome}</StyledTableCell>
-              <StyledTableCell align="right">{row.email}</StyledTableCell>
-              <StyledTableCell align="right">{row.telefone}</StyledTableCell>
-              <StyledTableCell align="right">{row.declara}</StyledTableCell>
-              <StyledTableCell align="right">{row.cnpj}</StyledTableCell>
-              <StyledTableCell align="right">{row.status}</StyledTableCell>
-              <StyledTableCell align="right"> 
-              <Container maxWidth="sm">
+          {empresas.map((row) => (
+            <StyledTableRow key={row.id}>
+              <StyledTableCell align="center">{row.id}</StyledTableCell>
+              <StyledTableCell align="center">{row.nome}</StyledTableCell>
+              <StyledTableCell align="center">{row.email}</StyledTableCell>
+              <StyledTableCell align="center">{row.telefone}</StyledTableCell>
+              <StyledTableCell align="center">{row.declara}</StyledTableCell>
+              <StyledTableCell align="center">{row.CNPJ}</StyledTableCell>
+              <StyledTableCell align="center">{row.ativo}</StyledTableCell>
+              <StyledTableCell align="center"> 
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    '& > *': {
+                      m: 1,
+                    },
+                  }}
+                >
                   <ButtonGroup
-                    maxWidth="sm"
-                    variant="contained"
-                    aria-label="outlined primary button group"
+                   variant="contained" 
+                   aria-label="outlined button group primary"
+
                   >
-                  <Button>Editar</Button>
+                    <Button>Editar</Button>
+                    <Button color="error">Trocar estado</Button>
                   </ButtonGroup>
-                  <ButtonGroup
-                    maxWidth="sm"
-                    variant="contained"
-                    aria-label="outlined primary button group"
-                    color="error"
-                  >
-                    <Button>Trocar estado</Button>
-                  </ButtonGroup>
-                </Container>
+                </Box>
               </StyledTableCell>
             </StyledTableRow>
           ))}

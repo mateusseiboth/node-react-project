@@ -15,8 +15,8 @@ import React from "react";
 
 const Rightbar = () => {
   return (
-    <Box flex={1} p={1} sx={{ display: { xs: "none", sm: "block" } }}>
-      <Box position="fixed" width={200}>
+    <Box flex={0.7} p={1} sx={{ display: { xs: "none", sm: "block" } }}>
+      <Box position="fixed" width={150}>
         <Typography variant="h6" fontWeight={100} mt={2}>
           Últimas declarações cadastradas
         </Typography>
