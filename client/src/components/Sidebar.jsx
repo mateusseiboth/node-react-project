@@ -5,7 +5,6 @@ import {
   Home,
   ModeNight,
   Person,
-  Settings,
   Storefront,
 } from "@mui/icons-material";
 import {
@@ -33,7 +32,7 @@ const Sidebar = ({mode,setMode}) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
+            <ListItemButton component="a" href="/empresas">
               <ListItemIcon>
                 <Article />
               </ListItemIcon>
@@ -41,7 +40,7 @@ const Sidebar = ({mode,setMode}) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
+            <ListItemButton component="a" href="/declaracao">
               <ListItemIcon>
                 <Group />
               </ListItemIcon>
@@ -49,7 +48,7 @@ const Sidebar = ({mode,setMode}) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
+            <ListItemButton component="a" href="suasDeclaracao">
               <ListItemIcon>
                 <Storefront />
               </ListItemIcon>
@@ -61,15 +60,7 @@ const Sidebar = ({mode,setMode}) => {
               <ListItemIcon>
                 <Person />
               </ListItemIcon>
-              <ListItemText primary="Todas as empresas" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemIcon>
-                <Settings />
-              </ListItemIcon>
-              <ListItemText primary="Cadastrar Declaração" />
+              <ListItemText primary="Usuários" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
@@ -77,15 +68,7 @@ const Sidebar = ({mode,setMode}) => {
               <ListItemIcon>
                 <AccountBox />
               </ListItemIcon>
-              <ListItemText primary="Cadastrar tipo de declaração" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
-              <ListItemIcon>
-                <AccountBox />
-              </ListItemIcon>
-              <ListItemText primary="Cadastrar empresa" />
+              <ListItemText primary="Tipos de declaração" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>

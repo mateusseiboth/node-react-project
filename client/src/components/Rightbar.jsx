@@ -77,6 +77,63 @@ const Rightbar = () => {
           }
         />
       </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem alignItems="flex-start">
+        <ListItemText
+          primary="Nome da Empresa"
+          secondary={
+            <React.Fragment>
+              <Typography
+                sx={{ display: 'inline' }}
+                component="span"
+                variant="body2"
+                color="text.primary"
+              >
+                NomeDeQuemEnviou -
+              </Typography>
+              {" Tipo de declaração"}
+            </React.Fragment>
+          }
+        />
+      </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem alignItems="flex-start">
+        <ListItemText
+          primary="Nome da Empresa"
+          secondary={
+            <React.Fragment>
+              <Typography
+                sx={{ display: 'inline' }}
+                component="span"
+                variant="body2"
+                color="text.primary"
+              >
+                NomeDeQuemEnviou -
+              </Typography>
+              {" Tipo de declaração"}
+            </React.Fragment>
+          }
+        />
+      </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem alignItems="flex-start">
+        <ListItemText
+          primary="Nome da Empresa"
+          secondary={
+            <React.Fragment>
+              <Typography
+                sx={{ display: 'inline' }}
+                component="span"
+                variant="body2"
+                color="text.primary"
+              >
+                NomeDeQuemEnviou -
+              </Typography>
+              {" Tipo de declaração"}
+            </React.Fragment>
+          }
+        />
+      </ListItem>
     </List>
       </Box>
     </Box>
