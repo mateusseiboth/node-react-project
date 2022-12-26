@@ -66,7 +66,7 @@ const Add = () => {
       >
         <Box
           width={545}
-          height={500}
+          height={150}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
