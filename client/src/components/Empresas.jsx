@@ -45,6 +45,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const Post = () => {
 
+const alterar = (id, ativo) => {
+  if(ativo == 1){
+    ativo = 0
+  }else{
+    ativo = 1
+  }
+   axios.put("http://localhost:8086/api/v1/postAtualizaEstado", {
+    "id": id,
+    "ativo": ativo,
+   }).then(()=> {
+    alert("Status alterado")
+  })
+  }
+
 const [empresas, setEmpresas] = useState([]);
 
 useEffect(() => {
@@ -57,7 +71,7 @@ useEffect(() => {
   return (
     <Card sx={{ margin: 1 }}>
       <CardHeader
-        title="Pegar título da página que está"
+        title="Empresas cadastradas"
       />
       <CardContent>
       <TableContainer component={Paper}>
@@ -77,7 +91,7 @@ useEffect(() => {
         <TableBody>
           {empresas.map((row) => (
             <StyledTableRow key={row.id}>
-              <StyledTableCell align="center">{row.id}</StyledTableCell>
+              <StyledTableCell align="center" name="id" value={row.id}>{row.id}</StyledTableCell>
               <StyledTableCell align="center">{row.nome}</StyledTableCell>
               <StyledTableCell align="center">{row.email}</StyledTableCell>
               <StyledTableCell align="center">{row.telefone}</StyledTableCell>
@@ -101,7 +115,7 @@ useEffect(() => {
 
                   >
                     <Button>Editar</Button>
-                    <Button color="error">Trocar estado</Button>
+                    <Button color="error" onClick={() => alterar(row.id, row.ativo)}>Trocar estado</Button>
                   </ButtonGroup>
                 </Box>
               </StyledTableCell>
