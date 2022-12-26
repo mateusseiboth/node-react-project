@@ -218,6 +218,34 @@ app.put('/api/v1/postAtualizaEmpresa', (req, res) => {
     })
 })
 
+app.put('/api/v1/postAtualizaUser', (req, res) => {
+    const id = req.body.id;
+    const nome = req.body.nome;
+    const senha = req.body.senha;
+    const nivel = req.body.nivel;
+
+    if (senha == '') {
+        const sqlInsert = "UPDATE usuario SET username = ?, nivel = ? WHERE id = ?";
+        db.query(sqlInsert, [nome, nivel, id], (err, result) => {
+            if (result.affectedRows != 0) {
+                res.send("OK")
+            } else {
+                res.send("Não encontrado")
+            }
+        })
+    } else {
+        const sqlInsert = "UPDATE usuario SET username = ?, senha = ?, nivel = ? WHERE id = ?";
+        db.query(sqlInsert, [nome, senha, nivel, id], (err, result) => {
+            if (result.affectedRows != 0) {
+                res.send("OK")
+            } else {
+                res.send("Não encontrado")
+            }
+        })
+    }
+
+})
+
 app.listen(8086, () => {
     console.log('Mamando na porta 8086')
 
