@@ -3,6 +3,7 @@ import {
   AppBar,
   Avatar,
   Box,
+  Link,
   Menu,
   MenuItem,
   styled,
@@ -10,13 +11,10 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
 });
-
-
 const Icons = styled(Box)(({ theme }) => ({
   display: "none",
   alignItems: "center",
@@ -25,7 +23,6 @@ const Icons = styled(Box)(({ theme }) => ({
     display: "flex",
   },
 }));
-
 const UserBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -72,7 +69,13 @@ const Navbar = () => {
           horizontal: "right",
         }}
       >
-        <MenuItem>Suas declarações</MenuItem>
+     
+          <MenuItem component="a" href='/tipoDeclara' >Tipos de declarações</MenuItem>
+          <MenuItem component="a" href='/declaracoes'>Todas as declarações</MenuItem>  
+          <MenuItem componten="a" href='/suasDeclaracao'>Suas declarações</MenuItem>
+          <MenuItem component="a" href='/usuarios'>Usuários</MenuItem>
+          <MenuItem component="a" href='/empresas'>Empresas</MenuItem>
+          <MenuItem component="a" href='/'>Index</MenuItem>
         {/* Deve ser mostrado apenas ao admin */}
         <MenuItem>Painel do admin</MenuItem>
         <MenuItem>Logout</MenuItem>
