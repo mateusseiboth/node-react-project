@@ -94,7 +94,7 @@ const Post = () => {
   }, [])
 
   const submitUser = () =>{
-   /*axios.put("http://localhost:8086/api/v1/postAtualizaUser", {
+   axios.put("http://localhost:8086/api/v1/postAtualizaUser", {
       "id": id,
       "nome": nome,
       "senha": senha,
@@ -102,7 +102,7 @@ const Post = () => {
     }).then(()=> {
       alert("Usuário alterado")
       window.location.reload();
-    })*/
+    })
     console.log(id, nome, senha, nivel);
   }
 
