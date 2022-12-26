@@ -30,12 +30,6 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const UserBox = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-  gap: "20px",
-  marginBottom: "2px",
-});
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -79,6 +73,7 @@ const Post = () => {
     setId(linha.id)
     setNome(linha.nome)
     setNivel(linha.nivel)
+    setSenha('')
   }
 
   const [linha, setLinha] = useState([]);
