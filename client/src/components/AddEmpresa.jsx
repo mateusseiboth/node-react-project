@@ -1,10 +1,8 @@
 import {
-  Avatar,
   Button,
   ButtonGroup,
   Fab,
   Modal,
-  Stack,
   styled,
   TextField,
   Tooltip,
@@ -21,11 +19,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Add as AddIcon,
-  DateRange,
-  EmojiEmotions,
-  Image,
-  PersonAdd,
-  VideoCameraBack,
 } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
@@ -72,6 +65,7 @@ const Add = () => {
       "telefone": telefone,
       "ativo": 1,}).then(()=> {
       alert("Empresa cadastrada com sucesso!")
+      window.location.reload(); //atualiza a página
       })
   }
   //Varias seleções  serão concatenadas em uma string

@@ -7,7 +7,7 @@ const Feed = () => {
 
   setTimeout(() => {
     setLoading(false);
-  }, [3000]);
+  }, [100]);
 
   return (
     <Box flex={5} p={{ xs: 0, md: 3 }}>
