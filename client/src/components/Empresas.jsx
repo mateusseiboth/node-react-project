@@ -82,7 +82,7 @@ const Post = () => {
     }else{
       ativo = 1
     }
-    axios.put("http://localhost:8086/api/v1/postAtualizaEstado", {
+    axios.put(" /api/v1/postAtualizaEstado", {
       "id": id,
       "ativo": ativo,
     }).then(()=> {
@@ -94,7 +94,7 @@ const Post = () => {
   //busca empresas no node
   const [empresas, setEmpresas] = useState([]);
   useEffect(() => {
-      axios.get("http://localhost:8086/api/v1/getEmpresas/").then(function(response){
+      axios.get(" /api/v1/getEmpresas/").then(function(response){
       setEmpresas(response.data)
     })
 
@@ -117,7 +117,7 @@ const [open, setOpen] = useState(false);
 const [declaracao, setDeclaracao] = useState([]);
 
 useEffect(() => {
-  axios.get("http://localhost:8086/api/v1/getTipoDeclara").then(function(response){
+  axios.get(" /api/v1/getTipoDeclara").then(function(response){
   setDeclaracao(response.data)
 })
 
@@ -148,7 +148,7 @@ useEffect(() => {
   const submitEmpresa = () => {
     let stringDeclara = declaracoes.join();
     //console.log(nome, cnpj, email, telefone, stringDeclara, linha.id)
-    axios.put("http://localhost:8086/api/v1/postAtualizaEmpresa", 
+    axios.put(" /api/v1/postAtualizaEmpresa", 
     {
       "id": id,
       "declara": stringDeclara,

@@ -39,7 +39,7 @@ const Post = () => {
   //busca tipos de declaração no node
   const [tipos, setTipos] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8086/api/v1/getTipoDeclara/").then(function (response) {
+    axios.get(" /api/v1/getTipoDeclara/").then(function (response) {
       setTipos(response.data)
     })
 

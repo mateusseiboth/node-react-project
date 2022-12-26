@@ -40,7 +40,7 @@ const Post = () => {
   //busca declaracoes no node
   const [declaracoes, setDeclaracoes] = useState([]);
   useEffect(() => {
-      axios.post("http://localhost:8086/api/v1/getDeclaracaoUser/", {id: "6"}).then(function(response){
+      axios.post(" /api/v1/getDeclaracaoUser/", {id: "6"}).then(function(response){
       setDeclaracoes(response.data)
     })
 

@@ -63,7 +63,7 @@ const Add = () => {
 
   //envia o formulário
   const submitDeclaracao = () => {
-    axios.post("http://localhost:8086/api/v1/postDeclaracao",
+    axios.post("/api/v1/postDeclaracao",
       {
         "nome": mes,
         "tipoID": declaracao,
@@ -82,7 +82,7 @@ const Add = () => {
   const [declaracoes, setDeclaracoes] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8086/api/v1/getTipoDeclara").then(function (response) {
+    axios.get("/api/v1/getTipoDeclara").then(function (response) {
       setDeclaracoes(response.data)
     })
 
@@ -92,7 +92,7 @@ const Add = () => {
 
   //recupera as empresas cadastradas
   useEffect(() => {
-    axios.get("http://localhost:8086/api/v1/getEmpresas").then(function (response) {
+    axios.get("/api/v1/getEmpresas").then(function (response) {
       setEmpresas(response.data)
     })
 

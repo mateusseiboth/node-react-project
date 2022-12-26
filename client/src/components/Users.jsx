@@ -58,7 +58,7 @@ const Post = () => {
     }else{
       ativo = 1
     }
-    axios.put("http://localhost:8086/api/v1/postPromoveUser", {
+    axios.put(" /api/v1/postPromoveUser", {
       "id": id,
       "nivel": ativo,
     }).then(()=> {
@@ -87,14 +87,14 @@ const Post = () => {
   //busca usuarios no node
   const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8086/api/v1/getUsers/").then(function (response) {
+    axios.get(" /api/v1/getUsers/").then(function (response) {
       setUsuarios(response.data)
     })
 
   }, [])
 
   const submitUser = () =>{
-   axios.put("http://localhost:8086/api/v1/postAtualizaUser", {
+   axios.put(" /api/v1/postAtualizaUser", {
       "id": id,
       "nome": nome,
       "senha": senha,

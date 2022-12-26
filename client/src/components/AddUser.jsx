@@ -38,7 +38,7 @@ const Add = () => {
 
   //envia o formulário
   const submitUser = () => {
-    axios.post("http://localhost:8086/api/v1/postUsers",
+    axios.post(" /api/v1/postUsers",
       {
         "nome": nome,
         "senha": senha,

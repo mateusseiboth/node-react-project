@@ -56,7 +56,7 @@ const Add = () => {
   //envia o formulário
   const submitEmpresa = () => {
     let stringDeclara = declaracoes.join();
-    axios.post("http://localhost:8086/api/v1/postEmpresa", 
+    axios.post("/api/v1/postEmpresa", 
     {
       "declara": stringDeclara,
       "nome": nome,
@@ -87,7 +87,7 @@ const Add = () => {
   const [declaracao, setDeclaracao] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8086/api/v1/getTipoDeclara").then(function(response){
+    axios.get("/api/v1/getTipoDeclara").then(function(response){
     setDeclaracao(response.data)
   })
 

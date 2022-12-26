@@ -31,7 +31,7 @@ const Add = () => {
 
   //envia o formulário
   const submitUser = () => {
-    axios.post("http://localhost:8086/api/v1/postTipoDeclara",
+    axios.post(" /api/v1/postTipoDeclara",
       {
         "nome": nome,
       }).then(() => {
