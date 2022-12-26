@@ -183,6 +183,21 @@ app.put('/api/v1/postAtualizaEstado', (req, res) => {
     })
 })
 
+app.put('/api/v1/postPromoveUser', (req, res) => {
+    const id = req.body.id;
+    const nivel = req.body.nivel;
+
+    const sqlInsert = "UPDATE usuario SET nivel = ? WHERE id = ?";
+    db.query(sqlInsert, [nivel, id], (err, result) => {
+        if (result.affectedRows != 0) {
+            res.send("OK")
+        } else {
+            res.send("Não encontrado")
+        }
+        console.log(result);
+    })
+})
+
 app.put('/api/v1/postAtualizaEmpresa', (req, res) => {
     const id = req.body.id;
     const nome = req.body.nome;
