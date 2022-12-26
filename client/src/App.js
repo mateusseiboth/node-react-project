@@ -1,30 +1,18 @@
-import Sidebar from "./components/Sidebar";
-import Feed from "./components/Feed";
-import Rightbar from "./components/Rightbar";
-import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
-import Navbar from "./components/Navbar";
-import Add from "./components/AddEmpresa";
-import { useState } from "react";
+import React from "react";
+import FeedEmpresas from "./Empresas.js";
+import FeedDeclaracao from "./Declaracao.js";
+import FeedSuasDeclara from "./SuasDeclaracao.js";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [mode, setMode] = useState("dark");
-
-  const darkTheme = createTheme({
-    palette: {
-      mode: mode,
-    },
-  });
   return (
-    <ThemeProvider theme={darkTheme}>
-      <Box bgcolor={"background.default"} color={"text.primary"}>
-        <Navbar />
-        <Stack direction="row" spacing={2} justifyContent="space-between">
-        <Sidebar setMode={setMode} mode={mode}/>
-          <Feed />
-          <Rightbar />
-        </Stack>
-      </Box>
-    </ThemeProvider>
+    <Router>
+      <Routes>
+        <Route path="/empresas" element={<FeedEmpresas />} />
+        <Route path="/declaracao" element={<FeedDeclaracao />} />
+        <Route path="/suasDeclaracao" element={<FeedSuasDeclara />} />
+      </Routes>
+    </Router>
   );
 }
 
