@@ -1,7 +1,7 @@
 import { Box, Stack, Skeleton } from "@mui/material";
 import React, { useState } from "react";
 import Tipos from "./Tipos";
-import Add from "./AddUser";
+import Add from "./AddTipo";
 const Feed = () => {
   const [loading, setLoading] = useState(true);
 
