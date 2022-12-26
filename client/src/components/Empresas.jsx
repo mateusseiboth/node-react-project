@@ -57,7 +57,7 @@ const alterar = (id, ativo) => {
    }).then(()=> {
     alert("Status alterado")
   })
-  }
+}
 
 const [empresas, setEmpresas] = useState([]);
 
