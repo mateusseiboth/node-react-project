@@ -48,7 +48,7 @@ const Sidebar = ({mode,setMode}) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="suasDeclaracao">
+            <ListItemButton component="a" href="/suasDeclaracao">
               <ListItemIcon>
                 <Storefront />
               </ListItemIcon>
@@ -56,7 +56,7 @@ const Sidebar = ({mode,setMode}) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
+            <ListItemButton component="a" href="/usuarios">
               <ListItemIcon>
                 <Person />
               </ListItemIcon>
@@ -64,7 +64,7 @@ const Sidebar = ({mode,setMode}) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href="#simple-list">
+            <ListItemButton component="a" href="/tipoDeclara">
               <ListItemIcon>
                 <AccountBox />
               </ListItemIcon>
