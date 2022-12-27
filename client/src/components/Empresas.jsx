@@ -75,7 +75,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-const Post = ({chaveEmpresa, setChaveEmpresa}) => {
+const Post = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
 
   //Caso seja clicado em alterar
   const alterar = (id, ativo) => {
@@ -164,7 +164,11 @@ useEffect(() => {
       })
   }
 
+function rerender(){
+  setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
+  setLoading(true)
 
+}
   //cria a página
   return (
       <Card sx={{ margin: 1 }}>
@@ -177,7 +181,7 @@ useEffect(() => {
           variant="contained" 
           aria-label="outlined button group primary"
           >
-            <Button onClick={e=>setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")}>Recarregar</Button>
+            <Button onClick={rerender}>Recarregar</Button>
           </ButtonGroup>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">

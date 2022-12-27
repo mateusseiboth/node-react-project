@@ -23,7 +23,7 @@ const Feed = () => {
         </Stack>
       ) : (
         <>
-          <Empresas setChaveEmpresa={setChaveEmpresa} chaveEmpresa={chaveEmpresa} key={chaveEmpresa}/>
+          <Empresas setLoading={setLoading} loading={loading} setChaveEmpresa={setChaveEmpresa} chaveEmpresa={chaveEmpresa} key={chaveEmpresa}/>
           <Add />
         </>
       )}
