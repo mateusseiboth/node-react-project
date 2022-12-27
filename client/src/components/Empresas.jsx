@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer  } from 'react';
+import React, { useState, useEffect  } from 'react';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 
@@ -159,8 +159,7 @@ useEffect(() => {
       "email": email,
       "telefone": telefone,
       "ativo": 1,}).then(()=> {
-      alert("Empresa cadastrada com sucesso!")
-      window.location.reload(); 
+        rerender()
       })
   }
 
