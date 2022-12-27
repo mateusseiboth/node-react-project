@@ -4,9 +4,34 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
 
-app.use(cors());
+const session = require('express-session');
+const cookie = require('cookie-parser')
+
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookie())
+
+
+app.use(cors({
+    origin: ["http://0.0.0.0:8086"],
+    methods: ["GET", "POST", "PUT"],
+    credentials: true
+}));
+
+
+app.use(
+    session({
+        key: "userId",
+        secret: "nodejsemuitobom",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            expires: 60 * 60 * 24
+        },
+    })
+);
+
 
 const db = mysql.createPool({
     host: 'localhost',
@@ -153,13 +178,15 @@ app.post('/api/v1/postTipoDeclara', (req, res) => {
 
 })
 
-app.post('/api/v1/postChecarUsuario', (req, res) => {
+app.post('/api/v1/login', (req, res) => {
     const username = req.body.username;
     const senha = req.body.senha;
 
     const sqlInsert = "select * from usuario where username = ? and senha = ?";
     db.query(sqlInsert, [username, senha], (err, result) => {
         if (result != "") {
+            req.session.user = result
+            console.log(req.session.user)
             res.send("OK")
         } else {
             res.send("Não encontrado")
