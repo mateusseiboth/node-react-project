@@ -46,7 +46,7 @@ const MenuProps = {
   },
 };
 
-const Add = () => {
+const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
   const [nome, setNome] = useState("");
   const [cnpj, setCnpj] = useState("");
   const [email, setEmail] = useState("");
@@ -64,9 +64,14 @@ const Add = () => {
       "email": email,
       "telefone": telefone,
       "ativo": 1,}).then(()=> {
-      alert("Empresa cadastrada com sucesso!")
-      window.location.reload(); //atualiza a página
+        rerender()
       })
+      
+  }
+
+  function rerender(){
+    setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
+    setLoading(true)
   }
   //Varias seleções  serão concatenadas em uma string
   

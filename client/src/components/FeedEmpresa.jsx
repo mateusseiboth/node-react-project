@@ -24,7 +24,7 @@ const Feed = () => {
       ) : (
         <>
           <Empresas setLoading={setLoading} loading={loading} setChaveEmpresa={setChaveEmpresa} chaveEmpresa={chaveEmpresa} key={chaveEmpresa}/>
-          <Add />
+          <Add setLoading={setLoading} loading={loading} setChaveEmpresa={setChaveEmpresa} chaveEmpresa={chaveEmpresa} key={chaveEmpresa}/>
         </>
       )}
       
