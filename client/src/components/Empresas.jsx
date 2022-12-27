@@ -176,12 +176,6 @@ function rerender(){
         >
         </CardHeader>
         <CardContent>
-        <ButtonGroup
-          variant="contained" 
-          aria-label="outlined button group primary"
-          >
-            <Button onClick={rerender}>Recarregar</Button>
-          </ButtonGroup>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>

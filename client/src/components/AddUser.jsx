@@ -26,7 +26,14 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const Add = () => {
+const Add = ({chaveUser, setChaveUser, setLoading, loading}) => {
+
+  function rerender(){
+    setChaveUser(chaveUser === "light" ? "dark" : "light")
+    setLoading(true)
+  
+  }
+
   const handleChange = (event) => {
     setNivel(event.target.value);
   };
@@ -46,7 +53,7 @@ const Add = () => {
       }).then(() => {
         console.log(nome, senha, nivel)
         alert("Usuário cadastrado com sucesso!")
-        window.location.reload(); //atualiza a página
+        rerender(); //atualiza a página
       })
   }
 

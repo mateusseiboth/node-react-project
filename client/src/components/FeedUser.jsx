@@ -4,6 +4,7 @@ import Users from "./Users";
 import Add from "./AddUser";
 const Feed = () => {
   const [loading, setLoading] = useState(true);
+  const [chaveUsers, setChaveUsers] = useState(1);
 
   setTimeout(() => {
     setLoading(false);
@@ -20,8 +21,8 @@ const Feed = () => {
         </Stack>
       ) : (
         <>
-          <Users />
-          <Add />
+          <Users setLoading={setLoading} loading={loading} setChaveUsers={setChaveUsers} chaveUsers={chaveUsers} key={chaveUsers}/>
+          <Add setLoading={setLoading} loading={loading} setChaveUsers={setChaveUsers} chaveUsers={chaveUsers} key={chaveUsers}/>
         </>
       )}
     </Box>

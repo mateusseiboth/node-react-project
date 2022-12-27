@@ -26,7 +26,14 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const Add = () => {
+const Add = ({chaveTipo, setChaveTipo, setLoading, loading}) => {
+
+  function rerender(){
+    setChaveTipo(chaveTipo === "light" ? "dark" : "light")
+    setLoading(true)
+  
+  }
+
   const [nome, setNome] = useState("");
 
   //envia o formulário
@@ -37,7 +44,7 @@ const Add = () => {
       }).then(() => {
         console.log(nome)
         alert("Tipo de declaração cadastrado com sucesso!")
-        window.location.reload(); //atualiza a página
+        rerender(); //atualiza a página
       })
   }
 

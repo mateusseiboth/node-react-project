@@ -50,7 +50,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const Post = () => {
+const Post = ({chaveUser, setChaveUser, setLoading, loading}) => {
+
+  function rerender(){
+    setChaveUser(chaveUser === "light" ? "dark" : "light")
+    setLoading(true)
+  
+  }
 
   const alterar = (id, ativo) => {
     if(ativo == 1){
@@ -63,7 +69,7 @@ const Post = () => {
       "nivel": ativo,
     }).then(()=> {
       alert("Nível alterado")
-      window.location.reload();
+      rerender();
     })
   }
 
@@ -102,7 +108,7 @@ const Post = () => {
       "nivel": nivel,
     }).then(()=> {
       alert("Usuário alterado")
-      window.location.reload();
+      rerender();
     })
     console.log(id, nome, senha, nivel);
   }

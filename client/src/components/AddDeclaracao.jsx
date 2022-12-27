@@ -42,7 +42,13 @@ const MenuProps = {
   },
 };
 
-const Add = () => {
+const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
+
+  function rerender(){
+    setChaveDeclaracao(chaveDeclaracao === "light" ? "dark" : "light")
+    setLoading(true)
+  
+  }
 
   const handleChangeEmpresa = (event) => {
     setEmpresa(event.target.value);
@@ -71,7 +77,7 @@ const Add = () => {
         "usuario_id": 6,
       }).then(() => {
         alert("Declaração cadastrada com sucesso!")
-        window.location.reload(); //atualiza a página
+        rerender(); //atualiza o módulo
       })
     console.log(empresa, declaracao, mes);
   }

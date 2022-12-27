@@ -37,6 +37,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 const Post = () => {
 
+
+
   //busca declaracoes no node
   const [declaracoes, setDeclaracoes] = useState([]);
   useEffect(() => {

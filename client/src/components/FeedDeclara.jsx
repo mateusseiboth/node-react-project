@@ -4,6 +4,7 @@ import Declaracoes from "./Declaracoes";
 import Add from "./AddDeclaracao";
 const Feed = () => {
   const [loading, setLoading] = useState(true);
+  const [chaveDeclaracao, setChaveDeclaracao] = useState(1);
 
   setTimeout(() => {
     setLoading(false);
@@ -21,7 +22,8 @@ const Feed = () => {
       ) : (
         <>
           <Declaracoes />
-          <Add />
+          <Add setLoading={setLoading} loading={loading} setChaveDeclaracao={setChaveDeclaracao} chaveDeclaracao={chaveDeclaracao} key={chaveDeclaracao}/>
+
         </>
       )}
     </Box>
