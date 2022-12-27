@@ -43,14 +43,14 @@ const Navbar = () => {
         <Icons>
           <Avatar
             sx={{ width: 30, height: 30 }}
-            src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            src="../../public/images/avatar.jpg"
             onClick={(e) => setOpen(true)}
           />
         </Icons>
         <UserBox onClick={(e) => setOpen(true)}>
           <Avatar
             sx={{ width: 30, height: 30 }}
-            src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            src="../../public/images/avatar.jpg"
           />
           <Typography variant="span">Username aqui</Typography>
         </UserBox>
