@@ -71,7 +71,7 @@ const Post = () => {
     setOpen(estado)
     setLinha(linha)
     setId(linha.id)
-    setNome(linha.nome)
+    setNome(linha.username)
     setNivel(linha.nivel)
     setSenha('')
   }
@@ -87,14 +87,15 @@ const Post = () => {
   //busca usuarios no node
   const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
-    axios.get(" /api/v1/getUsers/").then(function (response) {
+    axios.get("/api/v1/getUsers/").then(function (response) {
       setUsuarios(response.data)
     })
 
   }, [])
 
   const submitUser = () =>{
-   axios.put(" /api/v1/postAtualizaUser", {
+    console.log(id, nome, senha, nivel);
+   axios.put("/api/v1/postAtualizaUser", {
       "id": id,
       "nome": nome,
       "senha": senha,
