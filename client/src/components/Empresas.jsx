@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer  } from 'react';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 
@@ -73,7 +73,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const Post = () => {
+
+
+const Post = ({chaveEmpresa, setChaveEmpresa}) => {
 
   //Caso seja clicado em alterar
   const alterar = (id, ativo) => {
@@ -162,13 +164,21 @@ useEffect(() => {
       })
   }
 
+
   //cria a página
   return (
       <Card sx={{ margin: 1 }}>
         <CardHeader
           title="Empresas cadastradas"
-        />
+        >
+        </CardHeader>
         <CardContent>
+        <ButtonGroup
+          variant="contained" 
+          aria-label="outlined button group primary"
+          >
+            <Button onClick={e=>setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")}>Recarregar</Button>
+          </ButtonGroup>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
@@ -180,7 +190,8 @@ useEffect(() => {
                   <StyledTableCell align="center">Declarações feitas</StyledTableCell>
                   <StyledTableCell align="center">CNPJ</StyledTableCell>
                   <StyledTableCell align="center">Status</StyledTableCell>
-                  <StyledTableCell align="center">Opções</StyledTableCell>
+                  <StyledTableCell align="center">
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -210,6 +221,7 @@ useEffect(() => {
                         >
                           <Button onClick={(e) => setModal(row, true) }>Editar</Button>
                           <Button color="error" onClick={() => alterar(row.id, row.ativo)}>Trocar estado</Button>
+                         
                         </ButtonGroup>
                       </Box>
                     </StyledTableCell>
@@ -218,6 +230,7 @@ useEffect(() => {
               </TableBody>
             </Table>
           </TableContainer>
+         
         </CardContent>
         <CardActions disableSpacing>
         <SytledModal

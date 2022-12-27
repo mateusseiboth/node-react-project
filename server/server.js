@@ -4,17 +4,17 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
 
-const session = require('express-session');
-const cookie = require('cookie-parser')
+//const session = require('express-session');
+//const cookie = require('cookie-parser')
 
-
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookie())
+/*app.use(cookie())
 
 
 app.use(cors({
-    origin: ["http://0.0.0.0:8086"],
+    origin: ["http://0.0.0.0:3000"],
     methods: ["GET", "POST", "PUT"],
     credentials: true
 }));
@@ -31,12 +31,12 @@ app.use(
         },
     })
 );
-
+*/
 
 const db = mysql.createPool({
-    host: 'localhost',
+    host: '172.20.0.2',
     user: 'root',
-    password: 'root',
+    password: '12345',
     database: 'teste',
 });
 
