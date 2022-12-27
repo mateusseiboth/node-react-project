@@ -89,7 +89,7 @@ const Post = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
       "ativo": ativo,
     }).then(()=> {
       alert("Status alterado")
-      window.location.reload();
+      rerender();
     })
   }
 
