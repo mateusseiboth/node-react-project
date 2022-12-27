@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/v1/getUsers', (req, res) => {
-    const sqlSelect = "SELECT username, id FROM usuario";
+    const sqlSelect = "SELECT username, id, nivel FROM usuario";
     db.query(sqlSelect, (err, result) => {
         console.log(result);
         res.send(result);
