@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/v1/getUsers', (req, res) => {
-    const sqlSelect = "SELECT * FROM usuario";
+    const sqlSelect = "SELECT username, id FROM usuario";
     db.query(sqlSelect, (err, result) => {
         console.log(result);
         res.send(result);
@@ -224,7 +224,7 @@ app.put('/api/v1/postAtualizaUser', (req, res) => {
     const senha = req.body.senha;
     const nivel = req.body.nivel;
 
-    if (senha == '') {
+    if (senha == '' || senha == null || senha == undefined) {
         const sqlInsert = "UPDATE usuario SET username = ?, nivel = ? WHERE id = ?";
         db.query(sqlInsert, [nome, nivel, id], (err, result) => {
             if (result.affectedRows != 0) {
