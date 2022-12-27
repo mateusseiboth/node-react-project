@@ -8,7 +8,7 @@ const Feed = () => {
 
   setTimeout(() => {
     setLoading(false);
-  }, [3000]);
+  }, [1000]);
 
 
   const [chaveEmpresa, setChaveEmpresa] = useState(1);
