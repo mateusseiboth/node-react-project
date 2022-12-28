@@ -131,11 +131,6 @@ function rerender(){
           <Typography variant="h6" color="gray" textAlign="center">
             Nova Empresa
           </Typography>
-          <UserBox>
-            <Typography fontWeight={500} variant="span">
-              Nome de quem tá logado
-            </Typography>
-          </UserBox>
           <Box
       component="form"
       sx={{
