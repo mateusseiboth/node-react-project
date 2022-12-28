@@ -190,6 +190,14 @@ app.post('/api/v1/login', (req, res) => {
     })
 })
 
+app.get('/api/v1/login', (req, res) => {
+    if (req.session.user) {
+        res.send({ loggedIn: true, user: req.session.user })
+    } else {
+        res.send({ loggedIn: false })
+    }
+})
+
 app.put('/api/v1/postAtualizaEstado', (req, res) => {
     const id = req.body.id;
     const ativo = req.body.ativo;
