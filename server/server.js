@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, '/../client/build')));
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: 'root',
+    password: '12345',
     database: 'teste',
 });
 
