@@ -68,7 +68,7 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
         "nome": mes,
         "tipoID": declaracao,
         "empresa_id": empresa,
-        "usuario_id": 6,
+        "usuario_id": userId,
       }).then(() => {
         alert("Declaração cadastrada com sucesso!")
       })
@@ -102,6 +102,19 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
     setLoading(true)
   
   }
+
+  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    axios.get(" /api/v1/login/").then(function(response){
+      console.log(response.data.user[0])
+      setUsername(response.data.user[0].username)
+      setUserId(response.data.user[0].id)
+  })
+
+}, [])
+
 
   return (
     <>
@@ -137,7 +150,7 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
           </Typography>
           <UserBox>
             <Typography fontWeight={500} variant="span">
-              Nome de quem tá logado
+              cadastrando como {username}
             </Typography>
           </UserBox>
           <Box
