@@ -177,7 +177,7 @@ app.post('/api/v1/login', (req, res) => {
     const username = req.body.username;
     const senha = req.body.senha;
 
-    const sqlInsert = "select * from usuario where username = ? and senha = ?";
+    const sqlInsert = "select username, id, imagem, nivel from usuario where username = ? and senha = ?";
     db.query(sqlInsert, [username, senha], (err, result) => {
         if (result != "") {
             req.session.user = result
