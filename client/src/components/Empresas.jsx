@@ -202,6 +202,8 @@ function rerender(){
                     <StyledTableCell align="center">{row.ativo}</StyledTableCell>
                     <StyledTableCell align="center"> 
                       <Box
+                        p={{ xs: 0, md: 2 }}
+                        flex={2}
                         sx={{
                           display: 'flex',
                           flexDirection: 'column',
