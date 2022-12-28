@@ -7,8 +7,25 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import axios from 'axios';
+import React, { useState } from "react";
 
 const Post = () => {
+  const [username, setUsername] = useState('');
+  const [senha, setSenha] = useState('');
+
+  const submitLogin = () => {
+
+    axios.post("/api/v1/login", 
+    {
+      
+      "username": username,
+      "senha": senha,
+    }).then(()=> {
+        window.location = "/";
+      })
+
+  }
 
   //cria a página
   return (
@@ -24,7 +41,11 @@ const Post = () => {
             maxWidth: '100%',
           }}
         >
-          <TextField align="center" margin="dense" fullWidth placeholder="Informe seu username" label="Username" id="username" />
+          <TextField
+           onChange={(e) =>{
+            setUsername(e.target.value)
+          }}
+           align="center" margin="dense" fullWidth placeholder="Informe seu username" label="Username" id="username" />
         </Box>
         <Box
           align="center"
@@ -33,9 +54,13 @@ const Post = () => {
             maxWidth: '100%',
           }}
         >
-          <TextField align="center" margin="dense" fullWidth placeholder="Informe sua senha" label="Senha" id="senha" />
+          <TextField 
+          onChange={(e) =>{
+            setSenha(e.target.value)
+          }}
+          align="center" margin="dense" fullWidth placeholder="Informe sua senha" label="Senha" id="senha" />
         </Box>
-        <Button variant="contained" color="success">
+        <Button onClick={submitLogin} variant="contained" color="success">
           Entrar
         </Button>
       </CardContent>
