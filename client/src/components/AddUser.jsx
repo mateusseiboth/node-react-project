@@ -26,13 +26,7 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const Add = ({chaveUser, setChaveUser, setLoading, loading}) => {
-
-  function rerender(){
-    setChaveUser(chaveUser === "light" ? "dark" : "light")
-    setLoading(true)
-  
-  }
+const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
 
   const handleChange = (event) => {
     setNivel(event.target.value);
@@ -53,11 +47,19 @@ const Add = ({chaveUser, setChaveUser, setLoading, loading}) => {
       }).then(() => {
         console.log(nome, senha, nivel)
         alert("Usuário cadastrado com sucesso!")
-        rerender(); //atualiza a página
+        
       })
+      rerender(); //atualiza a página
   }
 
   const [open, setOpen] = useState(false);
+
+
+  function rerender(){
+    setChaveUsers(chaveUsers === "light" ? "dark" : "light")
+    setLoading(true)
+  
+  }
   //Cria a página
   return (
     <>

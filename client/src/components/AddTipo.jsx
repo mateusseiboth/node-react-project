@@ -28,12 +28,6 @@ const SytledModal = styled(Modal)({
 
 const Add = ({chaveTipo, setChaveTipo, setLoading, loading}) => {
 
-  function rerender(){
-    setChaveTipo(chaveTipo === "light" ? "dark" : "light")
-    setLoading(true)
-  
-  }
-
   const [nome, setNome] = useState("");
 
   //envia o formulário
@@ -43,12 +37,19 @@ const Add = ({chaveTipo, setChaveTipo, setLoading, loading}) => {
         "nome": nome,
       }).then(() => {
         console.log(nome)
-        alert("Tipo de declaração cadastrado com sucesso!")
-        rerender(); //atualiza a página
+        alert("Tipo de declaração cadastrado com sucesso!");
+        
       })
+      rerender(); //atualiza a página
   }
 
   const [open, setOpen] = useState(false);
+
+  function rerender(){
+    setChaveTipo(chaveTipo === "light" ? "dark" : "light")
+    setLoading(true)
+  
+  }
   //Cria a página
   return (
     <>

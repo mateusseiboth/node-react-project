@@ -4,12 +4,13 @@ import Users from "./Users";
 import Add from "./AddUser";
 const Feed = () => {
   const [loading, setLoading] = useState(true);
-  const [chaveUsers, setChaveUsers] = useState(1);
+  
 
   setTimeout(() => {
     setLoading(false);
   }, [1000]);
 
+  const [chaveUsers, setChaveUsers] = useState(1);
   return (
     <Box flex={12} p={{ xs: 0, md: 11 }} minHeight="900px">
       {loading ? (
@@ -21,8 +22,8 @@ const Feed = () => {
         </Stack>
       ) : (
         <>
-          <Users setLoading={setLoading} loading={loading} setChaveUsers={setChaveUsers} chaveUsers={chaveUsers} key={chaveUsers}/>
-          <Add setLoading={setLoading} loading={loading} setChaveUsers={setChaveUsers} chaveUsers={chaveUsers} key={chaveUsers}/>
+          <Users setLoading={setLoading} loading={loading} setChaveUsesr={setChaveUsers} chaveUsers={chaveUsers} key={chaveUsers}/>
+          <Add setLoading={setLoading} loading={loading} setChaveUsers={setChaveUsers} chaveUsers={chaveUsers} />
         </>
       )}
     </Box>

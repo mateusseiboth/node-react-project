@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
-
+const path = require('path');
 const session = require('express-session');
 const cookie = require('cookie-parser')
 
@@ -32,6 +32,7 @@ app.use(
     })
 );
 
+app.use(express.static(path.join(__dirname, '/../client/build')));
 
 const db = mysql.createPool({
     host: 'localhost',
@@ -40,12 +41,6 @@ const db = mysql.createPool({
     database: 'teste',
 });
 
-
-app.get('/', (req, res) => {
-
-    res.send('Hello World');
-
-})
 
 app.get('/api/v1/getUsers', (req, res) => {
     const sqlSelect = "SELECT username, id, nivel FROM usuario";
@@ -271,6 +266,10 @@ app.put('/api/v1/postAtualizaUser', (req, res) => {
         })
     }
 
+})
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/../client/build/index.html'))
 })
 
 app.listen(8086, () => {

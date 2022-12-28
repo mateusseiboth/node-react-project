@@ -88,9 +88,9 @@ const Post = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
       "id": id,
       "ativo": ativo,
     }).then(()=> {
-      alert("Status alterado")
-      rerender();
+      
     })
+    rerender(); //atualiza a página
   }
 
   //busca empresas no node
@@ -159,14 +159,13 @@ useEffect(() => {
       "email": email,
       "telefone": telefone,
       "ativo": 1,}).then(()=> {
-        rerender()
+        rerender();
       })
   }
 
 function rerender(){
   setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
   setLoading(true)
-
 }
   //cria a página
   return (

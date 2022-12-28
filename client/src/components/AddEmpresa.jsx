@@ -64,14 +64,9 @@ const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
       "email": email,
       "telefone": telefone,
       "ativo": 1,}).then(()=> {
-        rerender()
       })
+      rerender(); //atualiza a página
       
-  }
-
-  function rerender(){
-    setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
-    setLoading(true)
   }
   //Varias seleções  serão concatenadas em uma string
   
@@ -97,6 +92,12 @@ const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
   })
 
 }, [])
+
+
+function rerender(){
+  setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
+  setLoading(true)
+}
 
   return (
     <>

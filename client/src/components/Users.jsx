@@ -50,13 +50,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const Post = ({chaveUser, setChaveUser, setLoading, loading}) => {
-
-  function rerender(){
-    setChaveUser(chaveUser === "light" ? "dark" : "light")
-    setLoading(true)
-  
-  }
+const Post = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
 
   const alterar = (id, ativo) => {
     if(ativo == 1){
@@ -68,9 +62,8 @@ const Post = ({chaveUser, setChaveUser, setLoading, loading}) => {
       "id": id,
       "nivel": ativo,
     }).then(()=> {
-      alert("Nível alterado")
-      rerender();
     })
+    rerender(); //atualiza a página
   }
 
   function setModal(linha, estado){
@@ -108,9 +101,15 @@ const Post = ({chaveUser, setChaveUser, setLoading, loading}) => {
       "nivel": nivel,
     }).then(()=> {
       alert("Usuário alterado")
-      rerender();
+      
     })
-    console.log(id, nome, senha, nivel);
+    rerender();
+    
+  }
+
+  function rerender(){
+    setChaveUsers(chaveUsers === "light" ? "dark" : "light")
+    setLoading(true)
   }
 
   //cria a página
