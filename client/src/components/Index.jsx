@@ -4,15 +4,28 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
 
 const Post = () => {
+
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    axios.get(" /api/v1/login/").then(function(response){
+      console.log(response.data.user[0])
+      setUsername(response.data.user[0].username)
+  })
+
+}, [])
+
 
   //cria a página
   return (
     <Card sx={{ margin: 1 }}>
       <CardContent>
       <Typography align="center" variant="h3" gutterBottom>
-        Bem-Vindo ao Sistema de Gerenciamento de Empresas
+        Bem-Vindo ao Sistema de Gerenciamento de Empresas, {username}
       </Typography>
       <Typography align="center" variant="h5" gutterBottom>
         Este sistema foi desenvolvido para gerenciar as empresas e suas declarações
