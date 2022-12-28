@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import Users from "./Users";
 import Add from "./AddUser";
 const Feed = () => {
-  const [loading, setLoading] = useState(true);
-  
+const [loading, setLoading] = useState(true);
+
 
   setTimeout(() => {
     setLoading(false);
