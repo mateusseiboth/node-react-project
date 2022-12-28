@@ -36,15 +36,28 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 const Post = () => {
+  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    axios.get(" /api/v1/login/").then(function(response){
+      setUsername(response.data.user[0].username)
+      setUserId(response.data.user[0].id)
+
+  })
+
+}, [])
 
   //busca declaracoes no node
-  const [declaracoes, setDeclaracoes] = useState([]);
+  const [userDeclaracoes, setUserDeclaracoes] = useState([]);
   useEffect(() => {
-      axios.post(" /api/v1/getDeclaracaoUser/", {id: "6"}).then(function(response){
-      setDeclaracoes(response.data)
+      axios.post(" /api/v1/getDeclaracaoUser/", {
+        id: userId
+      }).then(function(response){
+        setUserDeclaracoes(response.data)
     })
 
-  }, [])
+  }, [userId])
   
   //cria a página
   return (
@@ -67,7 +80,7 @@ const Post = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {declaracoes.map((row) => (
+                {userDeclaracoes.map((row) => (
                   <StyledTableRow key={row.id}>
                     <StyledTableCell align="center" name="id" value={row.id}>{row.id}</StyledTableCell>
                     <StyledTableCell align="center">{row.empresa}</StyledTableCell>
