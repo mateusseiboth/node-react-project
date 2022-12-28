@@ -45,7 +45,6 @@ const db = mysql.createPool({
 app.get('/api/v1/getUsers', (req, res) => {
     const sqlSelect = "SELECT username, id, nivel FROM usuario";
     db.query(sqlSelect, (err, result) => {
-        console.log(result);
         res.send(result);
     })
 
@@ -54,7 +53,6 @@ app.get('/api/v1/getUsers', (req, res) => {
 app.get('/api/v1/getEmpresas', (req, res) => {
     const sqlSelect = "SELECT * FROM empresa";
     db.query(sqlSelect, (err, result) => {
-        console.log(result);
         res.send(result);
     })
 
@@ -181,7 +179,6 @@ app.post('/api/v1/login', (req, res) => {
     db.query(sqlInsert, [username, senha], (err, result) => {
         if (result != "") {
             req.session.user = result
-            console.log(req.session.user)
             res.send("OK")
         } else {
             res.send("Não encontrado")
@@ -209,7 +206,6 @@ app.put('/api/v1/postAtualizaEstado', (req, res) => {
         } else {
             res.send("Não encontrado")
         }
-        console.log(result);
     })
 })
 
@@ -224,7 +220,6 @@ app.put('/api/v1/postPromoveUser', (req, res) => {
         } else {
             res.send("Não encontrado")
         }
-        console.log(result);
     })
 })
 
@@ -244,7 +239,6 @@ app.put('/api/v1/postAtualizaEmpresa', (req, res) => {
         } else {
             res.send("Não encontrado")
         }
-        console.log(result);
     })
 })
 
