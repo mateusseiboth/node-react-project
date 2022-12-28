@@ -26,7 +26,7 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const Add = ({chaveTipo, setChaveTipo, setLoading, loading}) => {
+const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
 
   const [nome, setNome] = useState("");
 
@@ -46,7 +46,7 @@ const Add = ({chaveTipo, setChaveTipo, setLoading, loading}) => {
   const [open, setOpen] = useState(false);
 
   function rerender(){
-    setChaveTipo(chaveTipo === "light" ? "dark" : "light")
+    setChaveTipos(chaveTipos === "light" ? "dark" : "light")
     setLoading(true)
   
   }

@@ -22,7 +22,7 @@ const Feed = () => {
         </Stack>
       ) : (
         <>
-          <Users setLoading={setLoading} loading={loading} setChaveUsesr={setChaveUsers} chaveUsers={chaveUsers} key={chaveUsers}/>
+          <Users setLoading={setLoading} loading={loading} setChaveUsers={setChaveUsers} chaveUsers={chaveUsers} key={chaveUsers}/>
           <Add setLoading={setLoading} loading={loading} setChaveUsers={setChaveUsers} chaveUsers={chaveUsers} />
         </>
       )}
