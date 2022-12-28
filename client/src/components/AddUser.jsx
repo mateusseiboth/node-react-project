@@ -45,7 +45,7 @@ const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
         "senha": senha,
         "nivel": nivel,
       }).then(() => {
-        console.log(nome, senha, nivel)
+        
         alert("Usuário cadastrado com sucesso!")
         
       })

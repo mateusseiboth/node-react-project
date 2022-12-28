@@ -11,12 +11,15 @@ axios.defaults.withCredentials = true;
 
 
 function App() {
+ 
+
+ 
   useEffect(() => {
     axios.get("/api/v1/login/").then((response) => {
       if (response.data.loggedIn === false) {
         window.location = "/login";
       } else {
-  
+       
       }
     });
   }

@@ -93,7 +93,7 @@ const Post = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
   }, [])
 
   const submitUser = () =>{
-    console.log(id, nome, senha, nivel);
+    
    axios.put("/api/v1/postAtualizaUser", {
       "id": id,
       "nome": nome,

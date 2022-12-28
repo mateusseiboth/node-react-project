@@ -10,6 +10,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  Alert,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -44,6 +45,18 @@ const MenuProps = {
 
 const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
 
+  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    axios.get(" /api/v1/login/").then(function(response){
+      console.log(response.data.user[0])
+      setUsername(response.data.user[0].username)
+      setUserId(response.data.user[0].id)
+  })
+
+}, [])
+
   const handleChangeEmpresa = (event) => {
     setEmpresa(event.target.value);
   };
@@ -60,6 +73,9 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
   };
 
   const [mes, setMes] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
 
   //envia o formulário
   const submitDeclaracao = () => {
@@ -69,10 +85,19 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
         "tipoID": declaracao,
         "empresa_id": empresa,
         "usuario_id": userId,
-      }).then(() => {
-        alert("Declaração cadastrada com sucesso!")
-      })
-      rerender(); //atualiza a página
+      }).then(response => {
+        if(response.data.result === true){
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }else {
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }
+      }).catch(error=>{
+        console.log(error)
+      }) 
   }
 
   const [open, setOpen] = useState(false);
@@ -95,25 +120,16 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
       setEmpresas(response.data)
     })
 
-  }, [])
+  }, [userId])
 
   function rerender(){
     setChaveDeclaracao(chaveDeclaracao === "light" ? "dark" : "light")
     setLoading(true)
-  
+    setUserId(userId)
+    setUsername(username)
+
+    console.log(userId, username)
   }
-
-  const [username, setUsername] = useState('');
-  const [userId, setUserId] = useState('');
-
-  useEffect(() => {
-    axios.get(" /api/v1/login/").then(function(response){
-      console.log(response.data.user[0])
-      setUsername(response.data.user[0].username)
-      setUserId(response.data.user[0].id)
-  })
-
-}, [])
 
 
   return (
@@ -133,7 +149,7 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
       </Tooltip>
       <SytledModal
         open={open}
-        onClose={(e) => setOpen(false)}
+        onClose={(e) => rerender()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -227,6 +243,9 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
           >
             <Button onClick={submitDeclaracao}>Cadastrar</Button>
           </ButtonGroup>
+          {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
         </Box>
       </SytledModal>
     </>

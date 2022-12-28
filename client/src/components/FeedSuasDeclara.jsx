@@ -5,6 +5,7 @@ import Add from "./AddDeclaracao";
 const Feed = () => {
   const [loading, setLoading] = useState(true);
   const [chaveDeclaracao, setChaveDeclaracao] = useState(1);
+  
 
   setTimeout(() => {
     setLoading(false);

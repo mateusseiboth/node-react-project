@@ -36,7 +36,6 @@ const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
       {
         "nome": nome,
       }).then(() => {
-        console.log(nome)
         alert("Tipo de declaração cadastrado com sucesso!");
         
       })

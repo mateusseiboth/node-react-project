@@ -39,6 +39,7 @@ const Post = () => {
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
 
+
   useEffect(() => {
     axios.get(" /api/v1/login/").then(function(response){
       setUsername(response.data.user[0].username)
@@ -56,8 +57,7 @@ const Post = () => {
       }).then(function(response){
         setUserDeclaracoes(response.data)
     })
-
-  }, [userId])
+  })
   
   //cria a página
   return (

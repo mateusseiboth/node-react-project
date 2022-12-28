@@ -149,7 +149,7 @@ useEffect(() => {
 
   const submitEmpresa = () => {
     let stringDeclara = declaracoes.join();
-    //console.log(nome, cnpj, email, telefone, stringDeclara, linha.id)
+    // (nome, cnpj, email, telefone, stringDeclara, linha.id)
     axios.put(" /api/v1/postAtualizaEmpresa", 
     {
       "id": id,

@@ -14,7 +14,7 @@ const Post = () => {
 
   useEffect(() => {
     axios.get(" /api/v1/login/").then(function(response){
-      console.log(response.data.user[0])
+      
       setUsername(response.data.user[0].username)
   })
 

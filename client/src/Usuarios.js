@@ -19,15 +19,15 @@ function App() {
       } else 
       if (response.data.user[0].nivel === 1){
         setNivel(false)
-        console.log(nivel)
+         
       }
       else {
         setNivel(true)
-        console.log(nivel)
+   
       }
     });
   }
-  , []);
+  , [nivel]);
 
   const [mode, setMode] = useState("dark");
 

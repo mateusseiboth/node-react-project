@@ -14,6 +14,7 @@ import {
   OutlinedInput,
   ListItemText,
   Checkbox,
+  Alert,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -51,6 +52,9 @@ const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
   const [cnpj, setCnpj] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
 
 
   //envia o formulário
@@ -63,9 +67,19 @@ const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
       "CNPJ": cnpj,
       "email": email,
       "telefone": telefone,
-      "ativo": 1,}).then(()=> {
-      })
-      rerender(); //atualiza a página
+      "ativo": 1,}).then(response => {
+        if(response.data.result === true){
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }else {
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }
+      }).catch(error=>{
+        console.log(error)
+      }) 
       
   }
   //Varias seleções  serão concatenadas em uma string
@@ -232,6 +246,9 @@ function rerender(){
           >
             <Button onClick={submitEmpresa}>Cadastrar</Button>
           </ButtonGroup>
+          {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
         </Box>
       </SytledModal>
     </>

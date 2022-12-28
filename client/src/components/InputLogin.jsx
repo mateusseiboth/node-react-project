@@ -9,13 +9,15 @@ import {
   ButtonGroup,
   Grid,
   Typography,
-  Divider,
+  Alert,
 } from "@mui/material";
 import axios from 'axios';
 import React, { useState } from "react";
 import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
 
 const Post = () => {
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
   const [username, setUsername] = useState('');
   const [senha, setSenha] = useState('');
 
@@ -26,9 +28,16 @@ const Post = () => {
 
         "username": username,
         "senha": senha,
-      }).then(() => {
-        window.location = "/";
-      })
+      }).then(response => {
+        if(response.data.result === true){
+          window.location="/"
+        }else {
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }
+      }).catch(error=>{
+        console.log(error)
+      }) 
 
   }
 
@@ -95,7 +104,7 @@ const Post = () => {
               </Box>
               <Box>
                 <Grid container>
-                  <Grid item xs={10} align="left">
+                  <Grid item xs={6} align="left">
                     
                       <ButtonGroup
                           orientation="vertical"
@@ -105,20 +114,21 @@ const Post = () => {
                       </ButtonGroup>
                     
                   </Grid>
-                  <Grid item xs={2} align="right">
+                  <Grid item xs={6} align="right">
                     
                   <ButtonGroup align="right">
                   <Button align="right" size="small" onClick={submitLogin} color="success">
                     Entrar
                   </Button>
                 </ButtonGroup>
-                    
+                {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity='error'>{alertContent}</Alert> : <></> }
                   </Grid>
                 </Grid>
               </Box>
             </CardContent>
             <CardActions>
-               
             </CardActions>
           </Card>
         </Grid>
