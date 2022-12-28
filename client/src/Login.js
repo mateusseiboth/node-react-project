@@ -15,7 +15,7 @@ function App() {
   return (
     
     <ThemeProvider theme={darkTheme}>
-      <Box bgcolor={"background.default"} color={"text.primary"}>
+      <Box bgcolor={"primary.main"} color={"text.primary"}>
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Feed />
         </Stack>
