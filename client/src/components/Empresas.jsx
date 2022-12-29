@@ -28,6 +28,7 @@ import {
   OutlinedInput,
   ListItemText,
   Checkbox,
+  Alert,
 } from "@mui/material";
 const SytledModal = styled(Modal)({
   display: "flex",
@@ -145,6 +146,9 @@ useEffect(() => {
   }
 
   const [linha, setLinha] = useState([]);
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
 
 
   const submitEmpresa = () => {
@@ -158,9 +162,20 @@ useEffect(() => {
       "CNPJ": cnpj,
       "email": email,
       "telefone": telefone,
-      "ativo": 1,}).then(()=> {
-        rerender();
-      })
+      "ativo": 1,}).then(response => {
+        if(response.data.result === true){
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          console.log(response.data.content)
+          setAlert(true);
+        }else {
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }
+      }).catch(error=>{
+        console.log(error)
+      }) 
   }
 
 function rerender(){
@@ -233,13 +248,13 @@ function rerender(){
         <CardActions disableSpacing>
         <SytledModal
                               open={open}
-                              onClose={(e) => setOpen(false)}
+                              onClose={(e) =>  rerender()}
                               aria-labelledby="modal-modal-title"
                               aria-describedby="modal-modal-description"
                           >
                               <Box
                                 width={545}
-                                height={590}
+                                height={600}
                                 bgcolor={"background.default"}
                                 color={"text.primary"}
                                 p={3}
@@ -374,6 +389,9 @@ function rerender(){
                                 >
                                   <Button onClick={submitEmpresa}>Atualizar</Button>
                                 </ButtonGroup>
+                                {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
                               </Box>
                           </SytledModal>
 

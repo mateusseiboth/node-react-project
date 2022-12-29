@@ -130,13 +130,13 @@ function rerender(){
       </Tooltip>
       <SytledModal
         open={open}
-        onClose={(e) => setOpen(false)}
+        onClose={(e) => rerender()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box
           width={545}
-          height={500}
+          height={510}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
