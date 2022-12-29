@@ -9,6 +9,7 @@ import {
   FormControl,
   TextField,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
@@ -23,39 +24,59 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
+const Add = ({ chaveTipos, setChaveTipos, setLoading, loading }) => {
 
   const [nome, setNome] = useState("");
 
   const [alert, setAlert] = useState(false);
   const [alertContent, setAlertContent] = useState('');
   const [tipo, setTipo] = useState('');
+  const [loadingModal, setLoadingModal] = useState(false);
   //envia o formulário
   const submitUser = () => {
-    axios.post(" /api/v1/postTipoDeclara",
-      {
-        "nome": nome,
-      }).then(response => {
-        if(response.data.result === true){
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }else {
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }
-      }).catch(error=>{
-        console.log(error)
-      }) 
+
+    if (nome === '') {
+      setTipo('warning')
+      setAlertContent('Preencha todos os campos')
+      setAlert(true)
+    } else {
+      setTipo("info")
+      setAlertContent("Enviando")
+      setAlert(true);
+      setLoadingModal(true)
+
+      axios.post(" /api/v1/postTipoDeclara",
+        {
+          "nome": nome,
+        }).then(response => {
+          if (response.data.result === true) {
+            setTimeout(() => {
+              setTipo(response.data.tipo)
+              setAlertContent(response.data.content);
+              setAlert(true);
+              setLoadingModal(false);
+            }, [1000]);
+
+          } else {
+            setTimeout(() => {
+              setTipo(response.data.tipo)
+              setAlertContent(response.data.content);
+              setAlert(true);
+              setLoadingModal(false);
+            }, [1000]);
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+    }
   }
 
   const [open, setOpen] = useState(false);
 
-  function rerender(){
+  function rerender() {
     setChaveTipos(chaveTipos === "light" ? "dark" : "light")
     setLoading(true)
-  
+
   }
   //Cria a página
   return (
@@ -81,7 +102,7 @@ const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
       >
         <Box
           width={545}
-          height={160}
+          height={200}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
@@ -127,8 +148,15 @@ const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
             <Button onClick={submitUser}>Cadastrar</Button>
           </ButtonGroup>
           {alert ? <Alert align="right" onClick={() => {
-                setAlert(false);
-              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
+            setAlert(false);
+          }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></>}
+          <Box sx={{
+          position: "fixed",
+          bottom: 20,
+          right: { xs: "calc(50% - 25px)", md: 30 },
+        }}>
+          {loadingModal ? <CircularProgress /> : <></>}
+        </Box>
         </Box>
       </SytledModal>
     </>

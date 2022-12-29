@@ -11,6 +11,7 @@ import {
   FormControl,
   InputLabel,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -25,28 +26,11 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const UserBox = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-  gap: "20px",
-  marginBottom: "2px",
-});
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
 
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
+  const [loadingModal, setLoadingModal] = useState(false);
 
   useEffect(() => {
     axios.get(" /api/v1/login/").then(function(response){
@@ -79,25 +63,43 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
 
   //envia o formulário
   const submitDeclaracao = () => {
-    axios.post("/api/v1/postDeclaracao",
-      {
-        "nome": mes,
-        "tipoID": declaracao,
-        "empresa_id": empresa,
-        "usuario_id": userId,
-      }).then(response => {
-        if(response.data.result === true){
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }else {
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }
-      }).catch(error=>{
-        console.log(error)
-      }) 
+
+    if(mes === '' || declaracao === '' || empresa === '' || userId === '' ){
+      setTipo('warning')
+      setAlertContent('Preencha todos os campos')
+      setAlert(true)
+    } else {
+      setTipo("info")
+      setAlertContent("Enviando")               
+      setAlert(true);
+      setLoadingModal(true)
+      axios.post("/api/v1/postDeclaracao",
+        {
+          "nome": mes,
+          "tipoID": declaracao,
+          "empresa_id": empresa,
+          "usuario_id": userId,
+        }).then(response => {
+          if (response.data.result === true) {
+            setTimeout(() => {
+              setTipo(response.data.tipo)
+              setAlertContent(response.data.content);
+              setAlert(true);
+              setLoadingModal(false);
+            }, [1000]);
+            
+          } else {
+            setTimeout(() => {
+              setTipo(response.data.tipo)
+              setAlertContent(response.data.content);
+              setAlert(true);
+              setLoadingModal(false);
+            }, [1000]);
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+    }
   }
 
   const [open, setOpen] = useState(false);
@@ -155,7 +157,7 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
       >
         <Box
           width={350}
-          height={310}
+          height={340}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
@@ -242,6 +244,13 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
           {alert ? <Alert align="right" onClick={() => {
                 setAlert(false);
               }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
+              <Box sx={{
+          position: "fixed",
+          bottom: 20,
+          right: { xs: "calc(50% - 25px)", md: 30 },
+          }}>
+            {loadingModal ? <CircularProgress /> : <></> }
+          </Box>
         </Box>
       </SytledModal>
     </>
