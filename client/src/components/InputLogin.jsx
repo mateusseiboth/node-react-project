@@ -12,14 +12,14 @@ import {
   Alert,
   InputAdornment,
   IconButton,
-  VisibilityOff,
-  Visibility,
 } from "@mui/material";
 import axios from 'axios';
 import React, { useState } from "react";
 import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PasswordIcon from '@mui/icons-material/Password';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Post = () => {
   const [alert, setAlert] = useState(false);
