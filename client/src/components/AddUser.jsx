@@ -43,6 +43,13 @@ const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
   const [alertContent, setAlertContent] = useState('');
   const [tipo, setTipo] = useState('');
   const submitUser = () => {
+    
+    if(nome === '' || senha === '' || nivel === ''){
+      setTipo('warning')
+      setAlertContent('Preencha todos os campos')
+      setAlert(true)
+    } else {
+
     axios.post(" /api/v1/postUsers",
       {
         "nome": nome,
@@ -61,6 +68,7 @@ const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
       }).catch(error=>{
         console.log(error)
       }) 
+    }
   }
 
   const [open, setOpen] = useState(false);

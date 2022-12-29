@@ -29,13 +29,6 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const UserBox = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-  gap: "20px",
-  marginBottom: "2px",
-});
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -60,6 +53,13 @@ const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
   //envia o formulário
   const submitEmpresa = () => {
     let stringDeclara = declaracoes.join();
+
+    if(stringDeclara === '' || nome === '' || cnpj === '' || telefone === '' || email === ''){
+      setTipo('warning')
+      setAlertContent('Preencha todos os campos')
+      setAlert(true)
+    } else {
+
     axios.post("/api/v1/postEmpresa", 
     {
       "declara": stringDeclara,
@@ -80,6 +80,7 @@ const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
       }).catch(error=>{
         console.log(error)
       }) 
+    }
       
   }
   //Varias seleções  serão concatenadas em uma string

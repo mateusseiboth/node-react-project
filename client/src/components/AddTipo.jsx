@@ -32,6 +32,13 @@ const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
   const [tipo, setTipo] = useState('');
   //envia o formulário
   const submitUser = () => {
+
+    if(nome === ''){
+      setTipo('warning')
+      setAlertContent('Preencha todos os campos')
+      setAlert(true)
+    } else {
+
     axios.post(" /api/v1/postTipoDeclara",
       {
         "nome": nome,
@@ -48,6 +55,7 @@ const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
       }).catch(error=>{
         console.log(error)
       }) 
+    }
   }
 
   const [open, setOpen] = useState(false);

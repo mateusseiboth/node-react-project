@@ -25,24 +25,6 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const UserBox = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-  gap: "20px",
-  marginBottom: "2px",
-});
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
 
   const [username, setUsername] = useState('');
@@ -79,25 +61,33 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
 
   //envia o formulário
   const submitDeclaracao = () => {
-    axios.post("/api/v1/postDeclaracao",
-      {
-        "nome": mes,
-        "tipoID": declaracao,
-        "empresa_id": empresa,
-        "usuario_id": userId,
-      }).then(response => {
-        if(response.data.result === true){
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }else {
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }
-      }).catch(error=>{
-        console.log(error)
-      }) 
+
+    if(mes === '' || declaracao === '' || empresa === '' || userId === '' ){
+      setTipo('warning')
+      setAlertContent('Preencha todos os campos')
+      setAlert(true)
+    } else {
+
+      axios.post("/api/v1/postDeclaracao",
+        {
+          "nome": mes,
+          "tipoID": declaracao,
+          "empresa_id": empresa,
+          "usuario_id": userId,
+        }).then(response => {
+          if(response.data.result === true){
+            setTipo(response.data.tipo)
+            setAlertContent(response.data.content);
+            setAlert(true);
+          }else {
+            setTipo(response.data.tipo)
+            setAlertContent(response.data.content);
+            setAlert(true);
+          }
+        }).catch(error=>{
+          console.log(error)
+        }) 
+    }
   }
 
   const [open, setOpen] = useState(false);

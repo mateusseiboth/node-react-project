@@ -153,7 +153,13 @@ useEffect(() => {
 
   const submitEmpresa = () => {
     let stringDeclara = declaracoes.join();
-    // (nome, cnpj, email, telefone, stringDeclara, linha.id)
+    
+    if(stringDeclara === '' || nome === '' || cnpj === '' || telefone === '' || email === '' || id === ''){
+      setTipo('warning')
+      setAlertContent('Preencha todos os campos')
+      setAlert(true)
+    } else {
+
     axios.put(" /api/v1/postAtualizaEmpresa", 
     {
       "id": id,
@@ -176,6 +182,7 @@ useEffect(() => {
       }).catch(error=>{
         console.log(error)
       }) 
+    }
   }
 
 function rerender(){

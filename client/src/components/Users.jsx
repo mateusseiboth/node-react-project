@@ -54,7 +54,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Post = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
 
   const alterar = (id, ativo) => {
-    if(ativo == 1){
+    if(ativo === 1){
       ativo = 0
     }else{
       ativo = 1
@@ -98,6 +98,12 @@ const Post = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
   const [tipo, setTipo] = useState('');
   const submitUser = () =>{
 
+    if(id === '' || nome === '' || nivel === '' ){
+      setTipo('warning')
+      setAlertContent('Preencha todos os campos')
+      setAlert(true)
+    } else {
+
     
    axios.put("/api/v1/postAtualizaUser", {
       "id": id,
@@ -117,6 +123,7 @@ const Post = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
     }).catch(error=>{
       console.log(error)
     }) 
+  }
     
   }
 
