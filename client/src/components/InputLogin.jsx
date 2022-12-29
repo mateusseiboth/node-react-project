@@ -69,7 +69,7 @@ const Post = () => {
                  * Eu mal sei como organiza as grids
               </Typography>
               <Typography variant="body2" gutterBottom>
-                 * Acho que agora já deixei de amar minha ex
+                 * A tela de login é simples mesmo mas é o que consigo fazer agora
               </Typography>
 
           </CardContent>
@@ -117,7 +117,7 @@ const Post = () => {
                   <Grid item xs={6} align="right">
                     
                   <ButtonGroup align="right">
-                  <Button align="right" size="small" onClick={submitLogin} color="success">
+                  <Button align="right" onClick={submitLogin} color="success">
                     Entrar
                   </Button>
                 </ButtonGroup>
