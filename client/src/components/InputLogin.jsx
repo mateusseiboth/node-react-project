@@ -6,14 +6,18 @@ import {
   TextField,
   Button,
   CardHeader,
+  CardMedia,
   ButtonGroup,
   Grid,
   Typography,
   Alert,
+  InputAdornment,
 } from "@mui/material";
 import axios from 'axios';
 import React, { useState } from "react";
 import PetsRoundedIcon from '@mui/icons-material/PetsRounded';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import PasswordIcon from '@mui/icons-material/Password';
 
 const Post = () => {
   const [alert, setAlert] = useState(false);
@@ -46,11 +50,12 @@ const Post = () => {
     <Box sx={{ maxWidth: 900 }}>
       <Grid container spacing={0.2}>
         <Grid item xs={6} md={4}>
-          <Card align="center" variante="outlined"> 
+          <Card align="center" variante="outlined" sx={{ miniHeight: 600 }}> 
           <CardContent>
             <Box
               sx={{
-                mb: '30px'
+                mt: '12px',
+                mb: '51px'
               }}
             >
               <PetsRoundedIcon color="success" sx={{ fontSize: 90 }}/>
@@ -74,17 +79,22 @@ const Post = () => {
 
           </CardContent>
           <CardActions>
-
-            </CardActions>
+              <Box sx={{ fontStyle: 'italic', textAlign: 'right'}}>
+                <Typography sx={{fontSize: 12}}> 
+                  Versão beta-0.2
+                </Typography>
+            </Box>
+          </CardActions>
           </Card>
           
         </Grid>
         <Grid item xs={10} md={8}>
           <Card variante="outlined">
-            <CardHeader
-              title="Gerenciador de empresas"
-              subheader="Versão beta-0.2"
-            />
+          <CardMedia
+        sx={{ height: 140 }}
+        image="/images/contemplative-reptile.jpg"
+        title="green iguana"
+      />
             <CardContent>
               <Box
               sx={{
@@ -95,12 +105,32 @@ const Post = () => {
                   onChange={(e) => {
                     setUsername(e.target.value)
                   }}
-                  align="center" margin="dense" fullWidth placeholder="Informe seu username" label="Username" id="username" />
+                  align="center" margin="dense" fullWidth placeholder="Informe seu username" 
+                  label="Username" 
+                  id="username" 
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountBoxIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  />
                 <TextField
                   onChange={(e) => {
                     setSenha(e.target.value)
                   }}
-                  align="center" margin="dense" fullWidth placeholder="Informe sua senha" label="Senha" id="senha" />
+                  align="center" margin="dense" fullWidth 
+                  placeholder="Informe sua senha" 
+                  label="Senha" 
+                  id="senha"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PasswordIcon />
+                      </InputAdornment>
+                    ),
+                  }} />
               </Box>
               <Box>
                 <Grid container>
