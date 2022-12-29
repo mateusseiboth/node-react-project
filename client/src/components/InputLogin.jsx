@@ -26,7 +26,7 @@ const Post = () => {
   const [alertContent, setAlertContent] = useState('');
   const [username, setUsername] = useState('');
   const [senha, setSenha] = useState('');
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -136,19 +136,23 @@ const Post = () => {
                         <PasswordIcon />
                       </InputAdornment>
                     ),
-                  }} 
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                    
                   }
+                }
+
+                  
                   />
               </Box>
               <Box>
