@@ -15,6 +15,7 @@ import {
   ListItemText,
   Checkbox,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -40,7 +41,7 @@ const MenuProps = {
   },
 };
 
-const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
+const Add = ({ chaveEmpresa, setChaveEmpresa, setLoading, loading }) => {
   const [nome, setNome] = useState("");
   const [cnpj, setCnpj] = useState("");
   const [email, setEmail] = useState("");
@@ -48,53 +49,64 @@ const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
   const [alert, setAlert] = useState(false);
   const [alertContent, setAlertContent] = useState('');
   const [tipo, setTipo] = useState('');
-
+  const [loadingModal, setLoadingModal] = useState(false);
 
   //envia o formulário
   const submitEmpresa = () => {
     let stringDeclara = declaracoes.join();
 
-    if(stringDeclara === '' || nome === '' || cnpj === '' || telefone === '' || email === ''){
+    if (stringDeclara === '' || nome === '' || cnpj === '' || telefone === '' || email === '') {
       setTipo('warning')
       setAlertContent('Preencha todos os campos')
       setAlert(true)
     } else {
-
-    axios.post("/api/v1/postEmpresa", 
-    {
-      "declara": stringDeclara,
-      "nome": nome,
-      "CNPJ": cnpj,
-      "email": email,
-      "telefone": telefone,
-      "ativo": 1,}).then(response => {
-        if(response.data.result === true){
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }else {
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }
-      }).catch(error=>{
-        console.log(error)
-      }) 
+      setTipo("info")
+      setAlertContent("Enviando")               
+      setAlert(true);
+      setLoadingModal(true)
+      axios.post("/api/v1/postEmpresa",
+        {
+          "declara": stringDeclara,
+          "nome": nome,
+          "CNPJ": cnpj,
+          "email": email,
+          "telefone": telefone,
+          "ativo": 1,
+        }).then(response => {
+          if (response.data.result === true) {
+            setTimeout(() => {
+              setTipo(response.data.tipo)
+              setAlertContent(response.data.content);
+              setAlert(true);
+              setLoadingModal(false);
+            }, [1000]);
+            
+          } else {
+            setTimeout(() => {
+              setTipo(response.data.tipo)
+              setAlertContent(response.data.content);
+              setAlert(true);
+              setLoadingModal(false);
+            }, [1000]);
+          }
+        }).catch(error => {
+          console.log(error)
+        })
     }
-      
+
   }
   //Varias seleções  serão concatenadas em uma string
-  
-    const [declaracoes, setDeclaracoes] = React.useState([]);
-    const handleChangeCheck = (event) => {
-      const {
-        target: { value },
-      } = event;
-      setDeclaracoes(
-        // On autofill we get a stringified value.
-        typeof value === 'string' ? value.split(',') : value,
-      );
-    };
+
+  const [declaracoes, setDeclaracoes] = React.useState([]);
+  const handleChangeCheck = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setDeclaracoes(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
 
   const [open, setOpen] = useState(false);
 
@@ -102,17 +114,17 @@ const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
   const [declaracao, setDeclaracao] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/v1/getTipoDeclara").then(function(response){
-    setDeclaracao(response.data)
-  })
+    axios.get("/api/v1/getTipoDeclara").then(function (response) {
+      setDeclaracao(response.data)
+    })
 
-}, [])
+  }, [])
 
 
-function rerender(){
-  setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
-  setLoading(true)
-}
+  function rerender() {
+    setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
+    setLoading(true)
+  }
 
   return (
     <>
@@ -147,97 +159,98 @@ function rerender(){
             Nova Empresa
           </Typography>
           <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '60ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-     <div>
-       <FormControl sx={{width: '61ch' }}  >
-          <TextField
-            onChange={(e) =>{
-              setNome(e.target.value)
+            component="form"
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '60ch' },
             }}
-            fullWidth
-            required
-            id="nome"
-            label="Nome"
-            name="nome"
-            placeholder="Informe o nome da empresa"
-            defaultValue=""
-          />
-        </FormControl>
-        <FormControl sx={{width: '60ch' }}  >
-          <TextField
-          onChange={(e) =>{
-            setTelefone(e.target.value)
-          }}
-            required
-            fullWidth
-            name="telefone"
-            id="telefone"
-            label="Telefone"
-            type="number"
-            placeholder="Informe o telefone da empresa"
-            defaultValue=""
-          />
-        </FormControl>
+            noValidate
+            autoComplete="off"
+          >
+            <div>
+              <FormControl sx={{ width: '61ch' }}  >
+                <TextField
+                  onChange={(e) => {
+                    setNome(e.target.value)
+                  }}
+                  fullWidth
+                  required
+                  id="nome"
+                  label="Nome"
+                  name="nome"
+                  placeholder="Informe o nome da empresa"
+                  defaultValue=""
+                />
+              </FormControl>
+              <FormControl sx={{ width: '60ch' }}  >
+                <TextField
+                  onChange={(e) => {
+                    setTelefone(e.target.value)
+                  }}
+                  required
+                  fullWidth
+                  name="telefone"
+                  id="telefone"
+                  label="Telefone"
+                  type="number"
+                  placeholder="Informe o telefone da empresa"
+                  defaultValue=""
+                />
+              </FormControl>
 
-        <FormControl sx={{width: '61ch' }}  >
-          <TextField
-          onChange={(e) =>{
-            setCnpj(e.target.value)
-          }}
-            required
-            id="cnpj"
-            name="cnpj"
-            label="CNPJ"
-            type="number"
-            placeholder="Informe o cnpj da empresa"
-            defaultValue=""
-          />
-        </FormControl>
-        <FormControl sx={{width: '60ch' }}  >
-          <TextField
-          onChange={(e) =>{
-            setEmail(e.target.value)
-          }}
-            required
-            id="email"
-            name="email"
-            label="Email"
-            type="mail"
-            placeholder="Informe o email da empresa"
-            defaultValue=""
-          />
-        </FormControl>
-        <div>
-      <FormControl sx={{ m: 1, width: '60ch' }}>
-        <InputLabel id="checkbox-label">Declarações</InputLabel>
-        <Select
-          name="declaracoes"
-          labelId="declaracoes-label"
-          id="declaracoes"
-          multiple
-          value={declaracoes}
-          onChange={handleChangeCheck}
-          input={<OutlinedInput label="Declarações" />}
-          renderValue={(selected) => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {declaracao.map((row) => (
-            <MenuItem key={row.id} value={row.nome}>
-              <Checkbox checked={declaracoes.indexOf(row) > -1} />
-              <ListItemText primary={row.nome} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-      </div>  
-    </Box>
+              <FormControl sx={{ width: '61ch' }}  >
+                <TextField
+                  onChange={(e) => {
+                    setCnpj(e.target.value)
+                  }}
+                  required
+                  id="cnpj"
+                  name="cnpj"
+                  label="CNPJ"
+                  type="number"
+                  placeholder="Informe o cnpj da empresa"
+                  defaultValue=""
+                />
+              </FormControl>
+              <FormControl sx={{ width: '60ch' }}  >
+
+                <TextField
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                  }}
+                  required
+                  id="email"
+                  name="email"
+                  label="Email"
+                  type="mail"
+                  placeholder="Informe o email da empresa"
+                  defaultValue=""
+                />
+              </FormControl>
+              <div>
+                <FormControl sx={{ m: 1, width: '60ch' }}>
+                  <InputLabel id="checkbox-label">Declarações</InputLabel>
+                  <Select
+                    name="declaracoes"
+                    labelId="declaracoes-label"
+                    id="declaracoes"
+                    multiple
+                    value={declaracoes}
+                    onChange={handleChangeCheck}
+                    input={<OutlinedInput label="Declarações" />}
+                    renderValue={(selected) => selected.join(', ')}
+                    MenuProps={MenuProps}
+                  >
+                    {declaracao.map((row) => (
+                      <MenuItem key={row.id} value={row.nome}>
+                        <Checkbox checked={declaracoes.indexOf(row) > -1} />
+                        <ListItemText primary={row.nome} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+          </Box>
 
           <ButtonGroup
             sx={{ m: 1, width: '10ch' }}
@@ -248,9 +261,17 @@ function rerender(){
             <Button onClick={submitEmpresa}>Cadastrar</Button>
           </ButtonGroup>
           {alert ? <Alert align="right" onClick={() => {
-                setAlert(false);
-              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
+            setAlert(false);
+          }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></>}
+          <Box sx={{
+          position: "fixed",
+          bottom: 20,
+          right: { xs: "calc(50% - 25px)", md: 30 },
+          }}>
+            {loadingModal ? <CircularProgress /> : <></> }
+          </Box>
         </Box>
+
       </SytledModal>
     </>
   );

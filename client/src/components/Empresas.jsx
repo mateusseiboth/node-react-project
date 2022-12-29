@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 
@@ -29,18 +29,12 @@ import {
   ListItemText,
   Checkbox,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 const SytledModal = styled(Modal)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-});
-
-const UserBox = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-  gap: "20px",
-  marginBottom: "2px",
 });
 
 const ITEM_HEIGHT = 48;
@@ -76,20 +70,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 
-const Post = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
+const Post = ({ chaveEmpresa, setChaveEmpresa, setLoading, loading }) => {
 
   //Caso seja clicado em alterar
   const alterar = (id, ativo) => {
-    if(ativo == 1){
+    if (ativo == 1) {
       ativo = 0
-    }else{
+    } else {
       ativo = 1
     }
     axios.put(" /api/v1/postAtualizaEstado", {
       "id": id,
       "ativo": ativo,
-    }).then(()=> {
-      
+    }).then(() => {
+
     })
     rerender(); //atualiza a página
   }
@@ -97,7 +91,7 @@ const Post = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
   //busca empresas no node
   const [empresas, setEmpresas] = useState([]);
   useEffect(() => {
-      axios.get(" /api/v1/getEmpresas/").then(function(response){
+    axios.get(" /api/v1/getEmpresas/").then(function (response) {
       setEmpresas(response.data)
     })
 
@@ -114,17 +108,17 @@ const Post = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
     );
   };
 
-const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-//chama declaracoes
-const [declaracao, setDeclaracao] = useState([]);
+  //chama declaracoes
+  const [declaracao, setDeclaracao] = useState([]);
 
-useEffect(() => {
-  axios.get(" /api/v1/getTipoDeclara").then(function(response){
-  setDeclaracao(response.data)
-})
+  useEffect(() => {
+    axios.get(" /api/v1/getTipoDeclara").then(function (response) {
+      setDeclaracao(response.data)
+    })
 
-}, [])
+  }, [])
 
 
 
@@ -133,9 +127,10 @@ useEffect(() => {
   const [cnpj, setCnpj] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [loadingModal, setLoadingModal] = useState(false);
 
 
-  function setModal(linha, estado){
+  function setModal(linha, estado) {
     setOpen(estado)
     setLinha(linha)
     setId(linha.id)
@@ -153,259 +148,281 @@ useEffect(() => {
 
   const submitEmpresa = () => {
     let stringDeclara = declaracoes.join();
-    
-    if(stringDeclara === '' || nome === '' || cnpj === '' || telefone === '' || email === '' || id === ''){
+
+    if (stringDeclara === '' || nome === '' || cnpj === '' || telefone === '' || email === '' || id === '') {
       setTipo('warning')
       setAlertContent('Preencha todos os campos')
       setAlert(true)
     } else {
+      setTipo("info")
+      setAlertContent("Enviando")
+      setAlert(true);
+      setLoadingModal(true)
+      axios.put(" /api/v1/postAtualizaEmpresa",
+        {
+          "id": id,
+          "declara": stringDeclara,
+          "nome": nome,
+          "CNPJ": cnpj,
+          "email": email,
+          "telefone": telefone,
+          "ativo": 1,
+        }).then(response => {
+          if (response.data.result === true) {
+            setTimeout(() => {
+              setTipo(response.data.tipo)
+              setAlertContent(response.data.content);
+              setAlert(true);
+              setLoadingModal(false);
+            }, [1000]);
 
-    axios.put(" /api/v1/postAtualizaEmpresa", 
-    {
-      "id": id,
-      "declara": stringDeclara,
-      "nome": nome,
-      "CNPJ": cnpj,
-      "email": email,
-      "telefone": telefone,
-      "ativo": 1,}).then(response => {
-        if(response.data.result === true){
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          console.log(response.data.content)
-          setAlert(true);
-        }else {
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }
-      }).catch(error=>{
-        console.log(error)
-      }) 
+          } else {
+            setTimeout(() => {
+              setTipo(response.data.tipo)
+              setAlertContent(response.data.content);
+              setAlert(true);
+              setLoadingModal(false);
+            }, [1000]);
+          }
+        }).catch(error => {
+          console.log(error)
+        })
     }
   }
 
-function rerender(){
-  setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
-  setLoading(true)
-}
+  function rerender() {
+    setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
+    setLoading(true)
+  }
   //cria a página
   return (
-      <Card sx={{ margin: 1 }}>
-        <CardHeader
-          title="Empresas cadastradas"
-        >
-        </CardHeader>
-        <CardContent>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>ID</StyledTableCell>
-                  <StyledTableCell>Nome da empresa</StyledTableCell>
-                  <StyledTableCell align="center">Email</StyledTableCell>
-                  <StyledTableCell align="center">Telefone</StyledTableCell>
-                  <StyledTableCell align="center">Declarações feitas</StyledTableCell>
-                  <StyledTableCell align="center">CNPJ</StyledTableCell>
-                  <StyledTableCell align="center">Status</StyledTableCell>
+    <Card sx={{ margin: 1 }}>
+      <CardHeader
+        title="Empresas cadastradas"
+      >
+      </CardHeader>
+      <CardContent>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>ID</StyledTableCell>
+                <StyledTableCell>Nome da empresa</StyledTableCell>
+                <StyledTableCell align="center">Email</StyledTableCell>
+                <StyledTableCell align="center">Telefone</StyledTableCell>
+                <StyledTableCell align="center">Declarações feitas</StyledTableCell>
+                <StyledTableCell align="center">CNPJ</StyledTableCell>
+                <StyledTableCell align="center">Status</StyledTableCell>
+                <StyledTableCell align="center">
+                </StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {empresas.map((row) => (
+                <StyledTableRow key={row.id}>
+                  <StyledTableCell align="center" name="id" value={row.id}>{row.id}</StyledTableCell>
+                  <StyledTableCell align="center">{row.nome}</StyledTableCell>
+                  <StyledTableCell align="center">{row.email}</StyledTableCell>
+                  <StyledTableCell align="center">{row.telefone}</StyledTableCell>
+                  <StyledTableCell align="center">{row.declara}</StyledTableCell>
+                  <StyledTableCell align="center">{row.CNPJ}</StyledTableCell>
+                  <StyledTableCell align="center">{row.ativo}</StyledTableCell>
                   <StyledTableCell align="center">
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {empresas.map((row) => (
-                  <StyledTableRow key={row.id}>
-                    <StyledTableCell align="center" name="id" value={row.id}>{row.id}</StyledTableCell>
-                    <StyledTableCell align="center">{row.nome}</StyledTableCell>
-                    <StyledTableCell align="center">{row.email}</StyledTableCell>
-                    <StyledTableCell align="center">{row.telefone}</StyledTableCell>
-                    <StyledTableCell align="center">{row.declara}</StyledTableCell>
-                    <StyledTableCell align="center">{row.CNPJ}</StyledTableCell>
-                    <StyledTableCell align="center">{row.ativo}</StyledTableCell>
-                    <StyledTableCell align="center"> 
-                      <Box
-                        p={{ xs: 0, md: 2 }}
-                        flex={2}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          '& > *': {
-                            m: 1,
-                          },
-                        }}
-                      >
-                        <ButtonGroup
-                        variant="contained" 
+                    <Box
+                      p={{ xs: 0, md: 2 }}
+                      flex={2}
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        '& > *': {
+                          m: 1,
+                        },
+                      }}
+                    >
+                      <ButtonGroup
+                        variant="contained"
                         aria-label="outlined button group primary"
-                        >
-                          <Button onClick={(e) => setModal(row, true) }>Editar</Button>
-                          <Button color="error" onClick={() => alterar(row.id, row.ativo)}>Trocar estado</Button>
-                         
-                        </ButtonGroup>
-                      </Box>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-         
-        </CardContent>
-        <CardActions disableSpacing>
+                      >
+                        <Button onClick={(e) => setModal(row, true)}>Editar</Button>
+                        <Button color="error" onClick={() => alterar(row.id, row.ativo)}>Trocar estado</Button>
+
+                      </ButtonGroup>
+                    </Box>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+      </CardContent>
+      <CardActions disableSpacing>
         <SytledModal
-                              open={open}
-                              onClose={(e) =>  rerender()}
-                              aria-labelledby="modal-modal-title"
-                              aria-describedby="modal-modal-description"
-                          >
-                              <Box
-                                width={545}
-                                height={600}
-                                bgcolor={"background.default"}
-                                color={"text.primary"}
-                                p={3}
-                                borderRadius={5}
-                              >
-                                <Typography variant="h6" color="gray" textAlign="center">
-                                  Nova Empresa
-                                </Typography>
-                                <UserBox>
-                                  <Typography fontWeight={500} variant="span">
-                                    Nome de quem tá logado
-                                  </Typography>
-                                </UserBox>
-                                <Box
-                                  component="form"
-                                  sx={{
-                                    '& .MuiTextField-root': { m: 1, width: '60ch' },
-                                  }}
-                                  noValidate
-                                  autoComplete="off"
-                                >
-                                <div>
-                                <FormControl sx={{width: '20ch' }}  >
-                                    <TextField
-                                      disabled
-                                      fullWidth
-                                      required
-                                      id="id"
-                                      label="ID"
-                                      name="id"
-                                     
-                                      defaultValue={linha.id}
-                                    />
-                                    <TextField
-                                      disabled
-                                      fullWidth
-                                      required
-                                      id="ativo"
-                                      label="Ativo"
-                                      name="ativo"
-                                      defaultValue={linha.ativo}
-                                    />
-                                  </FormControl>
-                                  <FormControl sx={{width: '61ch' }}  >
-                                    <TextField
-                                      
-                                      onChange={(e) =>{
-                                        setNome(e.target.value)
-                                      }}
-                                      fullWidth
-                                      required
-                                      id="nome"
-                                      label="Nome"
-                                      name="nome"
-                                      defaultValue={linha.nome}
-                                    />
-                                  </FormControl>
-                                  <FormControl sx={{width: '60ch' }}  >
-                                    <TextField
-                                    
-                                    onChange={(e) =>{
-                                      setTelefone(e.target.value)
-                                    }}
-                                      required
-                                      fullWidth
-                                      name="telefone"
-                                      id="telefone"
-                                      label="Telefone"
-                                      type="number"
-                                      defaultValue={linha.telefone}
-                                    />
-                                  </FormControl>
+          open={open}
+          onClose={(e) => rerender()}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            width={545}
+            height={600}
+            bgcolor={"background.default"}
+            color={"text.primary"}
+            p={3}
+            borderRadius={5}
+          >
+            <Typography variant="h6" color="gray" textAlign="center">
+              Editar Empresa
+            </Typography>
+            <Box
+              component="form"
+              sx={{
+                '& > :not(style)': { m: 1, width: '28ch' },
+              }}
+              noValidate
+              autoComplete="off"
+            >
 
-                                  <FormControl sx={{width: '61ch' }}  >
-                                    <TextField
-                                    
-                                    onChange={(e) =>{
-                                      setCnpj(e.target.value)
-                                    }}
-                                      required
-                                      id="cnpj"
-                                      name="cnpj"
-                                      label="CNPJ"
-                                      type="number"
-                                      defaultValue={linha.CNPJ}
-                                    />
-                                  </FormControl>
-                                  <FormControl sx={{width: '60ch' }}  >
-                                    <TextField
-                                    
-                                    onChange={(e) =>{
-                                      setEmail(e.target.value)
-                                    }}
-                                      required
-                                      id="email"
-                                      name="email"
-                                      label="Email"
-                                      type="mail"
-                                      defaultValue={linha.email}
-                                    />
-                                  </FormControl>
-                                <div>
-                                <FormControl sx={{ m: 1, width: '60ch' }}>
-                                  <InputLabel id="checkbox-label">Declarações</InputLabel>
-                                  <Select
-                                    name="declaracoes"
-                                    labelId="declaracoes-label"
-                                    id="declaracoes"
-                                    multiple
-                                    value={declaracoes}
-                                    onChange={handleChangeCheck}
-                                    input={<OutlinedInput label="Declarações" />}
-                                    renderValue={(selected) => selected.join(', ')}
-                                    MenuProps={MenuProps}>
-                                    {declaracao.map((row) => (
-                                    <MenuItem key={row.id} value={row.nome}>
-                                      <Checkbox checked={declaracoes.indexOf(row) > -1} />
-                                      <ListItemText primary={row.nome} />
-                                    </MenuItem>
-                                ))}
-                                  </Select>
-                                </FormControl>
-                            </div>
-                            </div>  
-                              </Box>
+              <TextField
+                sx={{ width: '15ch', m: 1 }}
+                disabled
 
-                                <ButtonGroup
-                                  sx={{ m: 1, width: '10ch' }}
-                                  variant="contained"
-                                  color="success"
-                                  aria-label="outlined primary button group"
-                                >
-                                  <Button onClick={submitEmpresa}>Atualizar</Button>
-                                </ButtonGroup>
-                                {alert ? <Alert align="right" onClick={() => {
-                setAlert(false);
-              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
-                              </Box>
-                          </SytledModal>
+                required
+                id="id"
+                label="ID"
+                name="id"
 
-        </CardActions>
-      </Card>
+                defaultValue={linha.id}
+              />
+              <TextField
+                sx={{ width: '15ch', m: 1 }}
+                disabled
+
+                required
+                id="ativo"
+                label="Ativo"
+                name="ativo"
+                defaultValue={linha.ativo}
+              />
+
+            </Box>
+            <Box
+              component="form"
+              sx={{
+                '& .MuiTextField-root': { m: 1, width: '60ch' },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <FormControl sx={{ width: '61ch' }}  >
+                <TextField
+
+                  onChange={(e) => {
+                    setNome(e.target.value)
+                  }}
+                  fullWidth
+                  required
+                  id="nome"
+                  label="Nome"
+                  name="nome"
+                  defaultValue={linha.nome}
+                />
+              </FormControl>
+              <FormControl sx={{ width: '60ch' }}  >
+                <TextField
+
+                  onChange={(e) => {
+                    setTelefone(e.target.value)
+                  }}
+                  required
+                  fullWidth
+                  name="telefone"
+                  id="telefone"
+                  label="Telefone"
+                  type="number"
+                  defaultValue={linha.telefone}
+                />
+              </FormControl>
+
+              <FormControl sx={{ width: '61ch' }}  >
+                <TextField
+
+                  onChange={(e) => {
+                    setCnpj(e.target.value)
+                  }}
+                  required
+                  id="cnpj"
+                  name="cnpj"
+                  label="CNPJ"
+                  type="number"
+                  defaultValue={linha.CNPJ}
+                />
+              </FormControl>
+              <FormControl sx={{ width: '60ch' }}  >
+                <TextField
+
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                  }}
+                  required
+                  id="email"
+                  name="email"
+                  label="Email"
+                  type="mail"
+                  defaultValue={linha.email}
+                />
+              </FormControl>
+              <div>
+                <FormControl sx={{ m: 1, width: '60ch' }}>
+                  <InputLabel id="checkbox-label">Declarações</InputLabel>
+                  <Select
+                    name="declaracoes"
+                    labelId="declaracoes-label"
+                    id="declaracoes"
+                    multiple
+                    value={declaracoes}
+                    onChange={handleChangeCheck}
+                    input={<OutlinedInput label="Declarações" />}
+                    renderValue={(selected) => selected.join(', ')}
+                    MenuProps={MenuProps}>
+                    {declaracao.map((row) => (
+                      <MenuItem key={row.id} value={row.nome}>
+                        <Checkbox checked={declaracoes.indexOf(row) > -1} />
+                        <ListItemText primary={row.nome} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+
+            </Box>
+
+            <ButtonGroup
+              sx={{ m: 1, width: '10ch' }}
+              variant="contained"
+              color="success"
+              aria-label="outlined primary button group"
+            >
+              <Button onClick={submitEmpresa}>Atualizar</Button>
+            </ButtonGroup>
+            {alert ? <Alert align="right" onClick={() => {
+              setAlert(false);
+            }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></>}
+            <Box sx={{
+              position: "fixed",
+              bottom: 20,
+              right: { xs: "calc(50% - 25px)", md: 30 },
+            }}>
+              {loadingModal ? <CircularProgress /> : <></>}
+            </Box>
+          </Box>
+        </SytledModal>
+
+      </CardActions>
+    </Card>
   );
-  
+
 };
 
 export default Post;

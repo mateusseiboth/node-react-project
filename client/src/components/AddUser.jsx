@@ -13,6 +13,7 @@ import {
   FormControlLabel,
   FormLabel,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
@@ -37,6 +38,8 @@ const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
   const [nivel, setNivel] = useState("");
+  const [loadingModal, setLoadingModal] = useState(false);
+
 
   //envia o formulário
   const [alert, setAlert] = useState(false);
@@ -49,6 +52,10 @@ const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
       setAlertContent('Preencha todos os campos')
       setAlert(true)
     } else {
+      setTipo("info")
+      setAlertContent("Enviando")               
+      setAlert(true);
+      setLoadingModal(true)
 
     axios.post(" /api/v1/postUsers",
       {
@@ -56,18 +63,25 @@ const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
         "senha": senha,
         "nivel": nivel,
       }).then(response => {
-        if(response.data.result === true){
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
-        }else {
-          setTipo(response.data.tipo)
-          setAlertContent(response.data.content);
-          setAlert(true);
+        if (response.data.result === true) {
+          setTimeout(() => {
+            setTipo(response.data.tipo)
+            setAlertContent(response.data.content);
+            setAlert(true);
+            setLoadingModal(false);
+          }, [1000]);
+          
+        } else {
+          setTimeout(() => {
+            setTipo(response.data.tipo)
+            setAlertContent(response.data.content);
+            setAlert(true);
+            setLoadingModal(false);
+          }, [1000]);
         }
-      }).catch(error=>{
+      }).catch(error => {
         console.log(error)
-      }) 
+      })
     }
   }
 
@@ -182,6 +196,13 @@ const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
           {alert ? <Alert align="right" onClick={() => {
                 setAlert(false);
               }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
+              <Box sx={{
+          position: "fixed",
+          bottom: 20,
+          right: { xs: "calc(50% - 25px)", md: 30 },
+          }}>
+            {loadingModal ? <CircularProgress /> : <></> }
+          </Box>
         </Box>
       </SytledModal>
     </>

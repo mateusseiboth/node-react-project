@@ -6,7 +6,7 @@ const Feed = () => {
 
   setTimeout(() => {
     setLoading(false);
-  }, [3000]);
+  }, [1000]);
 
   return (
     <Box flex={12} p={{ xs: 0, md: 10 }} minHeight="900px">
