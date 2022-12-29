@@ -76,7 +76,15 @@ const Sidebar = ({mode,setMode}) => {
               <ListItemIcon>
                 <ModeNight />
               </ListItemIcon>
-              <Switch onChange={e=>setMode(mode === "light" ? "dark" : "light")}/>
+              <Switch defaultChecked onChange={e=>setMode(mode === "light" ? "dark" : "light")}/>
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component="a" href="/sair">
+              <ListItemIcon>
+                <AccountBox />
+              </ListItemIcon>
+              <ListItemText primary="Sair" />
             </ListItemButton>
           </ListItem>
         </List>

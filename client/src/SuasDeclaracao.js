@@ -3,9 +3,27 @@ import Feed from "./components/FeedSuasDeclara";
 
 import { Box, createTheme, Stack, ThemeProvider } from "@mui/material";
 import Navbar from "./components/Navbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
+
+
 
 function App() {
+ 
+
+ 
+  useEffect(() => {
+    axios.get("/api/v1/login/").then((response) => {
+      if (response.data.loggedIn === false) {
+        window.location = "/login";
+      } else {
+       
+      }
+    });
+  }
+  , []);
   const [mode, setMode] = useState("dark");
 
   const darkTheme = createTheme({

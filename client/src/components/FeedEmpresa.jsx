@@ -2,13 +2,16 @@ import { Box, Stack, Skeleton } from "@mui/material";
 import React, { useState } from "react";
 import Empresas from "./Empresas";
 import Add from "./AddEmpresa";
+
 const Feed = () => {
   const [loading, setLoading] = useState(true);
 
   setTimeout(() => {
     setLoading(false);
-  }, [100]);
+  }, [1000]);
 
+
+  const [chaveEmpresa, setChaveEmpresa] = useState(1);
   return (
     <Box flex={12} p={{ xs: 0, md: 11 }} minHeight="900px">
       {loading ? (
@@ -20,10 +23,11 @@ const Feed = () => {
         </Stack>
       ) : (
         <>
-          <Empresas />
-          <Add />
+          <Empresas setLoading={setLoading} loading={loading} setChaveEmpresa={setChaveEmpresa} chaveEmpresa={chaveEmpresa} key={chaveEmpresa}/>
+          <Add setLoading={setLoading} loading={loading} setChaveEmpresa={setChaveEmpresa} chaveEmpresa={chaveEmpresa} />
         </>
       )}
+      
     </Box>
   );
 };

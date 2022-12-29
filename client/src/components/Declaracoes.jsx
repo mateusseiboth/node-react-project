@@ -37,6 +37,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 const Post = () => {
 
+  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    axios.get(" /api/v1/login/").then(function(response){
+      console.log(response.data.user[0])
+      setUsername(response.data.user[0].username)
+      setUserId(response.data.user[0].id)
+  })
+
+}, [])
+
+
   //busca declaracoes no node
   const [declaracoes, setDeclaracoes] = useState([]);
   useEffect(() => {
@@ -44,7 +57,7 @@ const Post = () => {
       setDeclaracoes(response.data)
     })
 
-  }, [])
+  }, [userId])
   
   //cria a página
   return (

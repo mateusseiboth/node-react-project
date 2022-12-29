@@ -12,6 +12,7 @@ import {
   TextField,
   FormControlLabel,
   FormLabel,
+  Alert,
 } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
@@ -26,7 +27,8 @@ const SytledModal = styled(Modal)({
   justifyContent: "center",
 });
 
-const Add = () => {
+const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
+
   const handleChange = (event) => {
     setNivel(event.target.value);
   };
@@ -37,20 +39,38 @@ const Add = () => {
   const [nivel, setNivel] = useState("");
 
   //envia o formulário
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
   const submitUser = () => {
     axios.post(" /api/v1/postUsers",
       {
         "nome": nome,
         "senha": senha,
         "nivel": nivel,
-      }).then(() => {
-        console.log(nome, senha, nivel)
-        alert("Usuário cadastrado com sucesso!")
-        window.location.reload(); //atualiza a página
-      })
+      }).then(response => {
+        if(response.data.result === true){
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }else {
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }
+      }).catch(error=>{
+        console.log(error)
+      }) 
   }
 
   const [open, setOpen] = useState(false);
+
+
+  function rerender(){
+    setChaveUsers(chaveUsers === "light" ? "dark" : "light")
+    setLoading(true)
+  
+  }
   //Cria a página
   return (
     <>
@@ -69,13 +89,13 @@ const Add = () => {
       </Tooltip>
       <SytledModal
         open={open}
-        onClose={(e) => setOpen(false)}
+        onClose={(e) => rerender()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box
           width={545}
-          height={500}
+          height={370}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
@@ -151,6 +171,9 @@ const Add = () => {
           >
             <Button onClick={submitUser}>Cadastrar</Button>
           </ButtonGroup>
+          {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
         </Box>
       </SytledModal>
     </>

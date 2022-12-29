@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect  } from 'react';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 
@@ -28,6 +28,7 @@ import {
   OutlinedInput,
   ListItemText,
   Checkbox,
+  Alert,
 } from "@mui/material";
 const SytledModal = styled(Modal)({
   display: "flex",
@@ -73,7 +74,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const Post = () => {
+
+
+const Post = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
 
   //Caso seja clicado em alterar
   const alterar = (id, ativo) => {
@@ -86,9 +89,9 @@ const Post = () => {
       "id": id,
       "ativo": ativo,
     }).then(()=> {
-      alert("Status alterado")
-      window.location.reload();
+      
     })
+    rerender(); //atualiza a página
   }
 
   //busca empresas no node
@@ -143,11 +146,14 @@ useEffect(() => {
   }
 
   const [linha, setLinha] = useState([]);
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
 
 
   const submitEmpresa = () => {
     let stringDeclara = declaracoes.join();
-    //console.log(nome, cnpj, email, telefone, stringDeclara, linha.id)
+    // (nome, cnpj, email, telefone, stringDeclara, linha.id)
     axios.put(" /api/v1/postAtualizaEmpresa", 
     {
       "id": id,
@@ -156,18 +162,33 @@ useEffect(() => {
       "CNPJ": cnpj,
       "email": email,
       "telefone": telefone,
-      "ativo": 1,}).then(()=> {
-      alert("Empresa cadastrada com sucesso!")
-      window.location.reload(); 
-      })
+      "ativo": 1,}).then(response => {
+        if(response.data.result === true){
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          console.log(response.data.content)
+          setAlert(true);
+        }else {
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }
+      }).catch(error=>{
+        console.log(error)
+      }) 
   }
 
+function rerender(){
+  setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
+  setLoading(true)
+}
   //cria a página
   return (
       <Card sx={{ margin: 1 }}>
         <CardHeader
           title="Empresas cadastradas"
-        />
+        >
+        </CardHeader>
         <CardContent>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -180,7 +201,8 @@ useEffect(() => {
                   <StyledTableCell align="center">Declarações feitas</StyledTableCell>
                   <StyledTableCell align="center">CNPJ</StyledTableCell>
                   <StyledTableCell align="center">Status</StyledTableCell>
-                  <StyledTableCell align="center">Opções</StyledTableCell>
+                  <StyledTableCell align="center">
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -195,6 +217,8 @@ useEffect(() => {
                     <StyledTableCell align="center">{row.ativo}</StyledTableCell>
                     <StyledTableCell align="center"> 
                       <Box
+                        p={{ xs: 0, md: 2 }}
+                        flex={2}
                         sx={{
                           display: 'flex',
                           flexDirection: 'column',
@@ -210,6 +234,7 @@ useEffect(() => {
                         >
                           <Button onClick={(e) => setModal(row, true) }>Editar</Button>
                           <Button color="error" onClick={() => alterar(row.id, row.ativo)}>Trocar estado</Button>
+                         
                         </ButtonGroup>
                       </Box>
                     </StyledTableCell>
@@ -218,17 +243,18 @@ useEffect(() => {
               </TableBody>
             </Table>
           </TableContainer>
+         
         </CardContent>
         <CardActions disableSpacing>
         <SytledModal
                               open={open}
-                              onClose={(e) => setOpen(false)}
+                              onClose={(e) =>  rerender()}
                               aria-labelledby="modal-modal-title"
                               aria-describedby="modal-modal-description"
                           >
                               <Box
                                 width={545}
-                                height={590}
+                                height={600}
                                 bgcolor={"background.default"}
                                 color={"text.primary"}
                                 p={3}
@@ -363,6 +389,9 @@ useEffect(() => {
                                 >
                                   <Button onClick={submitEmpresa}>Atualizar</Button>
                                 </ButtonGroup>
+                                {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
                               </Box>
                           </SytledModal>
 

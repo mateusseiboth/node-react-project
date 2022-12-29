@@ -4,6 +4,7 @@ import Tipos from "./Tipos";
 import Add from "./AddTipo";
 const Feed = () => {
   const [loading, setLoading] = useState(true);
+  const [chaveTipos, setChaveTipos] = useState(1);
 
   setTimeout(() => {
     setLoading(false);
@@ -21,7 +22,7 @@ const Feed = () => {
       ) : (
         <>
           <Tipos />
-          <Add />
+          <Add setLoading={setLoading} loading={loading} setChaveTipos={setChaveTipos} chaveTipos={chaveTipos} key={chaveTipos}/>
         </>
       )}
     </Box>

@@ -21,6 +21,7 @@ import {
   Modal,
   Typography,
   TextField,
+  Alert,
 
 } from "@mui/material";
 
@@ -50,7 +51,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const Post = () => {
+const Post = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
 
   const alterar = (id, ativo) => {
     if(ativo == 1){
@@ -62,9 +63,8 @@ const Post = () => {
       "id": id,
       "nivel": ativo,
     }).then(()=> {
-      alert("Nível alterado")
-      window.location.reload();
     })
+    rerender(); //atualiza a página
   }
 
   function setModal(linha, estado){
@@ -93,18 +93,36 @@ const Post = () => {
 
   }, [])
 
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
   const submitUser = () =>{
-    console.log(id, nome, senha, nivel);
+
+    
    axios.put("/api/v1/postAtualizaUser", {
       "id": id,
       "nome": nome,
       "senha": senha,
       "nivel": nivel,
-    }).then(()=> {
-      alert("Usuário alterado")
-      window.location.reload();
-    })
-    console.log(id, nome, senha, nivel);
+    }).then(response => {
+      if(response.data.result === true){
+        setTipo(response.data.tipo)
+        setAlertContent(response.data.content);
+        setAlert(true);
+      }else {
+        setTipo(response.data.tipo)
+        setAlertContent(response.data.content);
+        setAlert(true);
+      }
+    }).catch(error=>{
+      console.log(error)
+    }) 
+    
+  }
+
+  function rerender(){
+    setChaveUsers(chaveUsers === "light" ? "dark" : "light")
+    setLoading(true)
   }
 
   //cria a página
@@ -158,13 +176,13 @@ const Post = () => {
       </CardContent>
       <SytledModal
         open={open}
-        onClose={(e) => setOpen(false)}
+        onClose={(e) => rerender()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box
           width={545}
-          height={590}
+          height={400}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
@@ -243,6 +261,9 @@ const Post = () => {
           >
             <Button onClick={submitUser}>Atualizar</Button>
           </ButtonGroup>
+          {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
         </Box>
       </SytledModal>
 

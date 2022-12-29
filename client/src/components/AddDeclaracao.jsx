@@ -10,6 +10,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  Alert,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -42,7 +43,19 @@ const MenuProps = {
   },
 };
 
-const Add = () => {
+const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
+
+  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    axios.get(" /api/v1/login/").then(function(response){
+      console.log(response.data.user[0])
+      setUsername(response.data.user[0].username)
+      setUserId(response.data.user[0].id)
+  })
+
+}, [])
 
   const handleChangeEmpresa = (event) => {
     setEmpresa(event.target.value);
@@ -60,6 +73,9 @@ const Add = () => {
   };
 
   const [mes, setMes] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
 
   //envia o formulário
   const submitDeclaracao = () => {
@@ -68,12 +84,20 @@ const Add = () => {
         "nome": mes,
         "tipoID": declaracao,
         "empresa_id": empresa,
-        "usuario_id": 6,
-      }).then(() => {
-        alert("Declaração cadastrada com sucesso!")
-        window.location.reload(); //atualiza a página
-      })
-    console.log(empresa, declaracao, mes);
+        "usuario_id": userId,
+      }).then(response => {
+        if(response.data.result === true){
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }else {
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }
+      }).catch(error=>{
+        console.log(error)
+      }) 
   }
 
   const [open, setOpen] = useState(false);
@@ -96,7 +120,17 @@ const Add = () => {
       setEmpresas(response.data)
     })
 
-  }, [])
+  }, [userId])
+
+  function rerender(){
+    setChaveDeclaracao(chaveDeclaracao === "light" ? "dark" : "light")
+    setLoading(true)
+    setUserId(userId)
+    setUsername(username)
+
+    console.log(userId, username)
+  }
+
 
   return (
     <>
@@ -115,13 +149,13 @@ const Add = () => {
       </Tooltip>
       <SytledModal
         open={open}
-        onClose={(e) => setOpen(false)}
+        onClose={(e) => rerender()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box
-          width={545}
-          height={500}
+          width={350}
+          height={310}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
@@ -130,11 +164,6 @@ const Add = () => {
           <Typography variant="h6" color="gray" textAlign="center">
             Nova Declaração
           </Typography>
-          <UserBox>
-            <Typography fontWeight={500} variant="span">
-              Nome de quem tá logado
-            </Typography>
-          </UserBox>
           <Box
             component="form"
             sx={{
@@ -206,9 +235,13 @@ const Add = () => {
             variant="contained"
             color="success"
             aria-label="outlined primary button group"
+            align="right"
           >
             <Button onClick={submitDeclaracao}>Cadastrar</Button>
           </ButtonGroup>
+          {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
         </Box>
       </SytledModal>
     </>

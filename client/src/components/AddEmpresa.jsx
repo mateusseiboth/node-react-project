@@ -14,6 +14,7 @@ import {
   OutlinedInput,
   ListItemText,
   Checkbox,
+  Alert,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -46,11 +47,14 @@ const MenuProps = {
   },
 };
 
-const Add = () => {
+const Add = ({chaveEmpresa, setChaveEmpresa, setLoading, loading}) => {
   const [nome, setNome] = useState("");
   const [cnpj, setCnpj] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
 
 
   //envia o formulário
@@ -63,10 +67,20 @@ const Add = () => {
       "CNPJ": cnpj,
       "email": email,
       "telefone": telefone,
-      "ativo": 1,}).then(()=> {
-      alert("Empresa cadastrada com sucesso!")
-      window.location.reload(); //atualiza a página
-      })
+      "ativo": 1,}).then(response => {
+        if(response.data.result === true){
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }else {
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }
+      }).catch(error=>{
+        console.log(error)
+      }) 
+      
   }
   //Varias seleções  serão concatenadas em uma string
   
@@ -93,6 +107,12 @@ const Add = () => {
 
 }, [])
 
+
+function rerender(){
+  setChaveEmpresa(chaveEmpresa === "light" ? "dark" : "light")
+  setLoading(true)
+}
+
   return (
     <>
       <Tooltip
@@ -110,13 +130,13 @@ const Add = () => {
       </Tooltip>
       <SytledModal
         open={open}
-        onClose={(e) => setOpen(false)}
+        onClose={(e) => rerender()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box
           width={545}
-          height={500}
+          height={510}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
@@ -125,11 +145,6 @@ const Add = () => {
           <Typography variant="h6" color="gray" textAlign="center">
             Nova Empresa
           </Typography>
-          <UserBox>
-            <Typography fontWeight={500} variant="span">
-              Nome de quem tá logado
-            </Typography>
-          </UserBox>
           <Box
       component="form"
       sx={{
@@ -231,6 +246,9 @@ const Add = () => {
           >
             <Button onClick={submitEmpresa}>Cadastrar</Button>
           </ButtonGroup>
+          {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
         </Box>
       </SytledModal>
     </>
