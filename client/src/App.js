@@ -6,6 +6,7 @@ import Usuarios from "./Usuarios.js";
 import Tipos from "./Tipo.js";
 import FeedIndex from "./inicio.js";
 import Login from "./Login.js";
+import Logout from "./Logout.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/suasDeclaracao" element={<FeedSuasDeclara />} />
           <Route path="/usuarios" element={<Usuarios />} />
           <Route path="/tipoDeclara" element={<Tipos />} />
+          <Route path="/sair" element={<Logout />} />
         </Routes>
       </Router>
   );

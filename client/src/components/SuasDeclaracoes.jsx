@@ -39,26 +39,22 @@ const Post = () => {
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
 
-
-  useEffect(() => {
-    axios.get(" /api/v1/login/").then(function(response){
-      setUsername(response.data.user[0].username)
-      setUserId(response.data.user[0].id)
-
-  })
-
-}, [])
-
   //busca declaracoes no node
   const [userDeclaracoes, setUserDeclaracoes] = useState([]);
+
   useEffect(() => {
+      axios.get(" /api/v1/login/").then(function(response){
+        setUsername(response.data.user[0].username)
+        setUserId(response.data.user[0].id)
+      })
+
       axios.post(" /api/v1/getDeclaracaoUser/", {
         id: userId
       }).then(function(response){
+        console.log(response.data)
         setUserDeclaracoes(response.data)
     })
-  })
-  
+  }, [userId]) 
   //cria a página
   return (
       <Card sx={{ margin: 1 }}>

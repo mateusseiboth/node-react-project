@@ -3,14 +3,14 @@ import {
   AppBar,
   Avatar,
   Box,
-  Link,
   Menu,
   MenuItem,
   styled,
   Toolbar,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
@@ -31,7 +31,18 @@ const UserBox = styled(Box)(({ theme }) => ({
     display: "none",
   },
 }));
+
 const Navbar = () => {
+  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    axios.get(" /api/v1/login/").then(function(response){
+      setUsername(response.data.user[0].username)
+      setUserId(response.data.user[0].id)
+    })
+}, [userId]) 
+
   const [open, setOpen] = useState(false);
   return (
     <AppBar position="sticky">
@@ -52,7 +63,7 @@ const Navbar = () => {
             sx={{ width: 30, height: 30 }}
             src="../../public/images/avatar.jpg"
           />
-          <Typography variant="span">Username aqui</Typography>
+          <Typography variant="span">{username}</Typography>
         </UserBox>
       </StyledToolbar>
       <Menu
@@ -78,7 +89,7 @@ const Navbar = () => {
           <MenuItem component="a" href='/'>Index</MenuItem>
         {/* Deve ser mostrado apenas ao admin */}
         <MenuItem>Painel do admin</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem component="a" href="/sair">Logout</MenuItem>
       </Menu>
     </AppBar>
   );

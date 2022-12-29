@@ -154,8 +154,8 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
         aria-describedby="modal-modal-description"
       >
         <Box
-          width={545}
-          height={500}
+          width={350}
+          height={310}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
@@ -164,11 +164,6 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
           <Typography variant="h6" color="gray" textAlign="center">
             Nova Declaração
           </Typography>
-          <UserBox>
-            <Typography fontWeight={500} variant="span">
-              cadastrando como {username}
-            </Typography>
-          </UserBox>
           <Box
             component="form"
             sx={{
@@ -240,6 +235,7 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
             variant="contained"
             color="success"
             aria-label="outlined primary button group"
+            align="right"
           >
             <Button onClick={submitDeclaracao}>Cadastrar</Button>
           </ButtonGroup>

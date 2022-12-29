@@ -7,11 +7,8 @@ import {
   Tooltip,
   Typography,
   FormControl,
-  Radio,
-  RadioGroup,
   TextField,
-  FormControlLabel,
-  FormLabel,
+  Alert,
 } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
@@ -30,16 +27,27 @@ const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
 
   const [nome, setNome] = useState("");
 
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
   //envia o formulário
   const submitUser = () => {
     axios.post(" /api/v1/postTipoDeclara",
       {
         "nome": nome,
-      }).then(() => {
-        alert("Tipo de declaração cadastrado com sucesso!");
-        
-      })
-      rerender(); //atualiza a página
+      }).then(response => {
+        if(response.data.result === true){
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }else {
+          setTipo(response.data.tipo)
+          setAlertContent(response.data.content);
+          setAlert(true);
+        }
+      }).catch(error=>{
+        console.log(error)
+      }) 
   }
 
   const [open, setOpen] = useState(false);
@@ -67,13 +75,13 @@ const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
       </Tooltip>
       <SytledModal
         open={open}
-        onClose={(e) => setOpen(false)}
+        onClose={(e) => rerender()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box
           width={545}
-          height={150}
+          height={160}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
@@ -118,6 +126,9 @@ const Add = ({chaveTipos, setChaveTipos, setLoading, loading}) => {
           >
             <Button onClick={submitUser}>Cadastrar</Button>
           </ButtonGroup>
+          {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
         </Box>
       </SytledModal>
     </>

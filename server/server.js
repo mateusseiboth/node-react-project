@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, '/../client/build')));
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: '12345',
+    password: 'root',
     database: 'teste',
 });
 
@@ -114,9 +114,10 @@ app.post('/api/v1/getDeclaracaoUser', (req, res) => {
   on d.empresa_id = e.id where usuario_id = ?;`;
     db.query(sqlSelect, [id], (err, result) => {
         if (result != "") {
+            console.log(result)
             res.send(result);
         }else{
-            res.send("Não localizada no banco");
+            res.send(result);
         }
     })
 
@@ -137,7 +138,13 @@ app.post('/api/v1/getEmpresa', (req, res) => {
 })
 
 
+app.get('/api/v1/logout', (req, res) => {
+    if (req.session.user) {
+        req.session.destroy();
+        res.send({ loggedIn: false, user: null });
+    }
 
+})
 
 app.post('/api/v1/postUsers', (req, res) => {
     const nome = req.body.nome;

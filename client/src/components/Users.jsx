@@ -21,6 +21,7 @@ import {
   Modal,
   Typography,
   TextField,
+  Alert,
 
 } from "@mui/material";
 
@@ -92,18 +93,30 @@ const Post = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
 
   }, [])
 
+  const [alert, setAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [tipo, setTipo] = useState('');
   const submitUser = () =>{
+
     
    axios.put("/api/v1/postAtualizaUser", {
       "id": id,
       "nome": nome,
       "senha": senha,
       "nivel": nivel,
-    }).then(()=> {
-      alert("Usuário alterado")
-      
-    })
-    rerender();
+    }).then(response => {
+      if(response.data.result === true){
+        setTipo(response.data.tipo)
+        setAlertContent(response.data.content);
+        setAlert(true);
+      }else {
+        setTipo(response.data.tipo)
+        setAlertContent(response.data.content);
+        setAlert(true);
+      }
+    }).catch(error=>{
+      console.log(error)
+    }) 
     
   }
 
@@ -163,13 +176,13 @@ const Post = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
       </CardContent>
       <SytledModal
         open={open}
-        onClose={(e) => setOpen(false)}
+        onClose={(e) => rerender()}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box
           width={545}
-          height={590}
+          height={400}
           bgcolor={"background.default"}
           color={"text.primary"}
           p={3}
@@ -248,6 +261,9 @@ const Post = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
           >
             <Button onClick={submitUser}>Atualizar</Button>
           </ButtonGroup>
+          {alert ? <Alert align="right" onClick={() => {
+                setAlert(false);
+              }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></> }
         </Box>
       </SytledModal>
 

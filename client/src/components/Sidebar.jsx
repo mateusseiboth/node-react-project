@@ -79,6 +79,14 @@ const Sidebar = ({mode,setMode}) => {
               <Switch defaultChecked onChange={e=>setMode(mode === "light" ? "dark" : "light")}/>
             </ListItemButton>
           </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton component="a" href="/sair">
+              <ListItemIcon>
+                <AccountBox />
+              </ListItemIcon>
+              <ListItemText primary="Sair" />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Box>
     </Box>
