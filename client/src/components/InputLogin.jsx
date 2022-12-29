@@ -5,13 +5,15 @@ import {
   Box,
   TextField,
   Button,
-  CardHeader,
   CardMedia,
   ButtonGroup,
   Grid,
   Typography,
   Alert,
   InputAdornment,
+  IconButton,
+  VisibilityOff,
+  Visibility,
 } from "@mui/material";
 import axios from 'axios';
 import React, { useState } from "react";
@@ -24,6 +26,9 @@ const Post = () => {
   const [alertContent, setAlertContent] = useState('');
   const [username, setUsername] = useState('');
   const [senha, setSenha] = useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const submitLogin = () => {
 
@@ -124,13 +129,27 @@ const Post = () => {
                   placeholder="Informe sua senha" 
                   label="Senha" 
                   id="senha"
+                  type={showPassword ? 'text' : 'password'}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
                         <PasswordIcon />
                       </InputAdornment>
                     ),
-                  }} />
+                  }} 
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  />
               </Box>
               <Box>
                 <Grid container>
