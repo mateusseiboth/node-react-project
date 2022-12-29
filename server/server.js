@@ -150,10 +150,13 @@ app.post('/api/v1/postUsers', (req, res) => {
     const nome = req.body.nome;
     const senha = req.body.senha;
     const nivel = req.body.nivel;
+    const imagem = "null.png";
 
-    const sqlInsert = "INSERT INTO usuario (username, senha, nivel) VALUES (?,?,?)";
-    db.query(sqlInsert, [nome, senha, nivel], (err, result) => {
-        if (result != "") {
+    const sqlInsert = "INSERT INTO usuario (username, senha, nivel, imagem) VALUES (?,?,?,?)";
+    db.query(sqlInsert, [nome, senha, nivel, imagem], (err, result) => {
+        
+        
+        if (result != undefined) {
             res.send({
                 "result": true,
                 "content": "Usuario inserido com sucesso",
@@ -183,7 +186,7 @@ app.post('/api/v1/postEmpresa', (req, res) => {
 
     const sqlInsert = "INSERT INTO empresa (nome, email, telefone, ativo, declara, cnpj) VALUES (?,?,?,?,?,?)";
     db.query(sqlInsert, [nome, email, telefone, ativo, declara, cnpj], (err, result) => {
-        if (result != "") {
+        if (result != undefined) {
             res.send({
                 "result": true,
                 "content": "Empresa inserida com sucesso",
@@ -210,7 +213,7 @@ app.post('/api/v1/postDeclaracao', (req, res) => {
 
     const sqlInsert = "INSERT INTO declaracao (nome, usuario_id, empresa_id, tipoID, data_cadastro) VALUES (?,?,?,?,now())";
     db.query(sqlInsert, [nome, usuario_id, empresa_id, tipoID], (err, result) => {
-        if (result != "") {
+        if (result != undefined) {
             res.send({
                 "result": true,
                 "content": "Declaração inserida com sucesso",
@@ -234,7 +237,7 @@ app.post('/api/v1/postTipoDeclara', (req, res) => {
 
     const sqlInsert = "INSERT INTO tipodeclaracao (nome) VALUES (?)";
     db.query(sqlInsert, [nome], (err, result) => {
-        if (result != "") {
+        if (result != undefined) {
             res.send({
                 "result": true,
                 "content": "Tipo declaração inserida com sucesso",
@@ -259,7 +262,7 @@ app.post('/api/v1/login', (req, res) => {
 
     const sqlInsert = "select username, id, imagem, nivel from usuario where username = ? and senha = ?";
     db.query(sqlInsert, [username, senha], (err, result) => {
-        if (result != "") {
+        if (result != undefined) {
             req.session.user = result
             res.send({
                 "result": true,
@@ -290,7 +293,7 @@ app.put('/api/v1/postAtualizaEstado', (req, res) => {
 
     const sqlInsert = "UPDATE empresa SET ativo = ? WHERE id = ?";
     db.query(sqlInsert, [ativo, id], (err, result) => {
-        if (result.affectedRows != 0) {
+        if (result != undefined) {
             res.send({
                 "result": true,
                 "content": "Empresa atualizada com sucesso",
@@ -314,7 +317,7 @@ app.put('/api/v1/postPromoveUser', (req, res) => {
 
     const sqlInsert = "UPDATE usuario SET nivel = ? WHERE id = ?";
     db.query(sqlInsert, [nivel, id], (err, result) => {
-        if (result.affectedRows != 0) {
+        if (result != undefined) {
             res.send({
                 "result": true,
                 "content": "Usuário promovido com sucesso",
@@ -343,7 +346,7 @@ app.put('/api/v1/postAtualizaEmpresa', (req, res) => {
 
     const sqlInsert = "UPDATE empresa SET nome = ?, email = ?, telefone = ?, ativo = ?, declara = ?, cnpj = ? WHERE id = ?";
     db.query(sqlInsert, [nome, email, telefone, ativo, declara, cnpj, id], (err, result) => {
-        if (result.affectedRows != 0) {
+        if (result != undefined) {
             res.send({
                 "result": true,
                 "content": "Empresa atualizada com sucesso",
@@ -370,7 +373,8 @@ app.put('/api/v1/postAtualizaUser', (req, res) => {
     if (senha == '' || senha == null || senha == undefined) {
         const sqlInsert = "UPDATE usuario SET username = ?, nivel = ? WHERE id = ?";
         db.query(sqlInsert, [nome, nivel, id], (err, result) => {
-            if (result.affectedRows != 0) {
+            console.log(result)
+            if (result != undefined) {
                 res.send({
                     "result": true,
                     "content": "Usuário atualizado com sucesso",
@@ -389,7 +393,7 @@ app.put('/api/v1/postAtualizaUser', (req, res) => {
     } else {
         const sqlInsert = "UPDATE usuario SET username = ?, senha = ?, nivel = ? WHERE id = ?";
         db.query(sqlInsert, [nome, senha, nivel, id], (err, result) => {
-            if (result.affectedRows != 0) {
+            if (result != undefined) {
                 res.send({
                     "result": true,
                     "content": "Usuário atualizado com sucesso",

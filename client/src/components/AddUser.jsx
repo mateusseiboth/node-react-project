@@ -57,7 +57,7 @@ const Add = ({chaveUsers, setChaveUsers, setLoading, loading}) => {
       setAlert(true);
       setLoadingModal(true)
 
-    axios.post(" /api/v1/postUsers",
+    axios.post("/api/v1/postUsers",
       {
         "nome": nome,
         "senha": senha,
