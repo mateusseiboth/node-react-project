@@ -198,8 +198,22 @@ const Post = ({ chaveEmpresa, setChaveEmpresa, setLoading, loading }) => {
                   Status: {row.ativo}
                 </Typography>
               </CardContent>
+              <CardActions disableSpacing>
+              <ButtonGroup
+                  variant="outlined"
+                  aria-label="outlined button group primary"
+                >
+                        <Button size="small" onClick={(e) => setModal(row, true)}>Editar</Button>
+                        <Button size="small" color="error" onClick={() => alterar(row.id, row.ativo)}>Trocar estado</Button>
 
-              <SytledModal
+                      </ButtonGroup>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      <SytledModal
                 open={open}
                 onClose={(e) => rerender()}
                 aria-labelledby="modal-modal-title"
@@ -359,20 +373,6 @@ const Post = ({ chaveEmpresa, setChaveEmpresa, setLoading, loading }) => {
                   </Box>
                 </Box>
               </SytledModal>
-              <CardActions disableSpacing>
-              <ButtonGroup
-                  variant="outlined"
-                  aria-label="outlined button group primary"
-                >
-                        <Button size="small" onClick={(e) => setModal(row, true)}>Editar</Button>
-                        <Button size="small" color="error" onClick={() => alterar(row.id, row.ativo)}>Trocar estado</Button>
-
-                      </ButtonGroup>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
     </Box>
   );
 

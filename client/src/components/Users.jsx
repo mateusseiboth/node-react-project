@@ -143,7 +143,21 @@ const Post = ({ chaveUsers, setChaveUsers, setLoading, loading }) => {
                   Nivel: {row.nivel}
                 </Typography>
               </CardContent>
-              <SytledModal
+
+              <CardActions disableSpacing>
+                <ButtonGroup
+                  variant="outlined"
+                  aria-label="outlined button group primary"
+                >
+                  <Button size="small" onClick={(e) => setModal(row, true)}>Editar</Button>
+                  <Button size="small" color="error" onClick={() => alterar(row.id, row.nivel)}>Trocar nível</Button>
+                </ButtonGroup>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      <SytledModal
                 open={open}
                 onClose={(e) => rerender()}
                 aria-labelledby="modal-modal-title"
@@ -242,20 +256,6 @@ const Post = ({ chaveUsers, setChaveUsers, setLoading, loading }) => {
                   </Box>
                 </Box>
               </SytledModal>
-
-              <CardActions disableSpacing>
-                <ButtonGroup
-                  variant="outlined"
-                  aria-label="outlined button group primary"
-                >
-                  <Button size="small" onClick={(e) => setModal(row, true)}>Editar</Button>
-                  <Button size="small" color="error" onClick={() => alterar(row.id, row.nivel)}>Trocar nível</Button>
-                </ButtonGroup>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
     </Box>
   );
 
