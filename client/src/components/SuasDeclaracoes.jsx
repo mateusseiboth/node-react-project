@@ -58,6 +58,9 @@ const Post = () => {
                 <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                   Data de entrega: {row.data}
                 </Typography>
+                <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Entregue por: {username}
+                </Typography>
               </CardContent>
             </Card>
           </Grid>
