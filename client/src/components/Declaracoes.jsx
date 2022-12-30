@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { styled } from '@mui/material/styles';
 
 import {
-  Paper,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  tableCellClasses,
   Grid,
   Typography,
   Box
