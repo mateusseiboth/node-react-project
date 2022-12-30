@@ -173,7 +173,7 @@ const Post = ({ chaveEmpresa, setChaveEmpresa, setLoading, loading }) => {
       </Typography>
       <Grid container spacing={1}>
         {empresas.map((row) => (
-          <Grid item xs={4}>
+          <Grid item xs={6} md={4}>
             <Card sx={{ margin: 1 }}>
               <CardHeader
                 title={row.nome}
