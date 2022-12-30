@@ -3,19 +3,12 @@ import axios from 'axios';
 import { styled } from '@mui/material/styles';
 
 import {
-  Paper,
+  Box,
+  Grid,
   Card,
   CardActions,
   CardContent,
   CardHeader,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  tableCellClasses,
-  Box,
   Button,
   ButtonGroup,
   Modal,
@@ -48,33 +41,11 @@ const MenuProps = {
   },
 };
 
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
-
 const Post = ({ chaveEmpresa, setChaveEmpresa, setLoading, loading }) => {
 
   //Caso seja clicado em alterar
   const alterar = (id, ativo) => {
-    if (ativo == 1) {
+    if (ativo === 1) {
       ativo = 0
     } else {
       ativo = 1
@@ -196,231 +167,213 @@ const Post = ({ chaveEmpresa, setChaveEmpresa, setLoading, loading }) => {
   }
   //cria a página
   return (
-    <Card sx={{ margin: 1 }}>
-      <CardHeader
-        title="Empresas cadastradas"
-      >
-      </CardHeader>
-      <CardContent>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>ID</StyledTableCell>
-                <StyledTableCell>Nome da empresa</StyledTableCell>
-                <StyledTableCell align="center">Email</StyledTableCell>
-                <StyledTableCell align="center">Telefone</StyledTableCell>
-                <StyledTableCell align="center">Declarações feitas</StyledTableCell>
-                <StyledTableCell align="center">CNPJ</StyledTableCell>
-                <StyledTableCell align="center">Status</StyledTableCell>
-                <StyledTableCell align="center">
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {empresas.map((row) => (
-                <StyledTableRow key={row.id}>
-                  <StyledTableCell align="center" name="id" value={row.id}>{row.id}</StyledTableCell>
-                  <StyledTableCell align="center">{row.nome}</StyledTableCell>
-                  <StyledTableCell align="center">{row.email}</StyledTableCell>
-                  <StyledTableCell align="center">{row.telefone}</StyledTableCell>
-                  <StyledTableCell align="center">{row.declara}</StyledTableCell>
-                  <StyledTableCell align="center">{row.CNPJ}</StyledTableCell>
-                  <StyledTableCell align="center">{row.ativo}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Box
-                      p={{ xs: 0, md: 2 }}
-                      flex={2}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        '& > *': {
-                          m: 1,
-                        },
-                      }}
-                    >
-                      <ButtonGroup
-                        variant="contained"
-                        aria-label="outlined button group primary"
-                      >
-                        <Button onClick={(e) => setModal(row, true)}>Editar</Button>
-                        <Button color="error" onClick={() => alterar(row.id, row.ativo)}>Trocar estado</Button>
+    <Box sx={{ ml: "5px" }} position="center">
+      <Typography align="center" variant="h3" component="div">
+        Empresas cadastradas
+      </Typography>
+      <Grid container spacing={1}>
+        {empresas.map((row) => (
+          <Grid item xs={6} md={4}>
+            <Card sx={{ margin: 1 }}>
+              <CardHeader
+                title={row.nome}
+              />
+              <CardContent>
+              <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  ID: {row.id}
+                </Typography>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Email: {row.email}
+                </Typography>
+                <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                 Telefone: {row.telefone}
+                </Typography>
+                <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                 Declarações feitas: {row.declara}
+                </Typography>
+                <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                 CNPJ: {row.CNPJ}
+                </Typography>
+                <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  Status: {row.ativo}
+                </Typography>
+              </CardContent>
+              <CardActions disableSpacing>
+              <ButtonGroup
+                  variant="outlined"
+                  aria-label="outlined button group primary"
+                >
+                        <Button size="small" onClick={(e) => setModal(row, true)}>Editar</Button>
+                        <Button size="small" color="error" onClick={() => alterar(row.id, row.ativo)}>Trocar estado</Button>
 
                       </ButtonGroup>
-                    </Box>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
 
-      </CardContent>
-      <CardActions disableSpacing>
-        <SytledModal
-          open={open}
-          onClose={(e) => rerender()}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box
-            width={545}
-            height={600}
-            bgcolor={"background.default"}
-            color={"text.primary"}
-            p={3}
-            borderRadius={5}
-          >
-            <Typography variant="h6" color="gray" textAlign="center">
-              Editar Empresa
-            </Typography>
-            <Box
-              component="form"
-              sx={{
-                '& > :not(style)': { m: 1, width: '28ch' },
-              }}
-              noValidate
-              autoComplete="off"
-            >
+      <SytledModal
+                open={open}
+                onClose={(e) => rerender()}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  width={545}
+                  height={600}
+                  bgcolor={"background.default"}
+                  color={"text.primary"}
+                  p={3}
+                  borderRadius={5}
+                >
+                  <Typography variant="h6" color="gray" textAlign="center">
+                    Editar Empresa
+                  </Typography>
+                  <Box
+                    component="form"
+                    sx={{
+                      '& > :not(style)': { m: 1, width: '28ch' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
 
-              <TextField
-                sx={{ width: '15ch', m: 1 }}
-                disabled
+                    <TextField
+                      sx={{ width: '15ch', m: 1 }}
+                      disabled
 
-                required
-                id="id"
-                label="ID"
-                name="id"
+                      required
+                      id="id"
+                      label="ID"
+                      name="id"
 
-                defaultValue={linha.id}
-              />
-              <TextField
-                sx={{ width: '15ch', m: 1 }}
-                disabled
+                      defaultValue={linha.id}
+                    />
+                    <TextField
+                      sx={{ width: '15ch', m: 1 }}
+                      disabled
 
-                required
-                id="ativo"
-                label="Ativo"
-                name="ativo"
-                defaultValue={linha.ativo}
-              />
+                      required
+                      id="ativo"
+                      label="Ativo"
+                      name="ativo"
+                      defaultValue={linha.ativo}
+                    />
 
-            </Box>
-            <Box
-              component="form"
-              sx={{
-                '& .MuiTextField-root': { m: 1, width: '60ch' },
-              }}
-              noValidate
-              autoComplete="off"
-            >
-              <FormControl sx={{ width: '61ch' }}  >
-                <TextField
+                  </Box>
+                  <Box
+                    component="form"
+                    sx={{
+                      '& .MuiTextField-root': { m: 1, width: '60ch' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <FormControl sx={{ width: '61ch' }}  >
+                      <TextField
 
-                  onChange={(e) => {
-                    setNome(e.target.value)
-                  }}
-                  fullWidth
-                  required
-                  id="nome"
-                  label="Nome"
-                  name="nome"
-                  defaultValue={linha.nome}
-                />
-              </FormControl>
-              <FormControl sx={{ width: '60ch' }}  >
-                <TextField
+                        onChange={(e) => {
+                          setNome(e.target.value)
+                        }}
+                        fullWidth
+                        required
+                        id="nome"
+                        label="Nome"
+                        name="nome"
+                        defaultValue={linha.nome}
+                      />
+                    </FormControl>
+                    <FormControl sx={{ width: '60ch' }}  >
+                      <TextField
 
-                  onChange={(e) => {
-                    setTelefone(e.target.value)
-                  }}
-                  required
-                  fullWidth
-                  name="telefone"
-                  id="telefone"
-                  label="Telefone"
-                  type="number"
-                  defaultValue={linha.telefone}
-                />
-              </FormControl>
+                        onChange={(e) => {
+                          setTelefone(e.target.value)
+                        }}
+                        required
+                        fullWidth
+                        name="telefone"
+                        id="telefone"
+                        label="Telefone"
+                        type="number"
+                        defaultValue={linha.telefone}
+                      />
+                    </FormControl>
 
-              <FormControl sx={{ width: '61ch' }}  >
-                <TextField
+                    <FormControl sx={{ width: '61ch' }}  >
+                      <TextField
 
-                  onChange={(e) => {
-                    setCnpj(e.target.value)
-                  }}
-                  required
-                  id="cnpj"
-                  name="cnpj"
-                  label="CNPJ"
-                  type="number"
-                  defaultValue={linha.CNPJ}
-                />
-              </FormControl>
-              <FormControl sx={{ width: '60ch' }}  >
-                <TextField
+                        onChange={(e) => {
+                          setCnpj(e.target.value)
+                        }}
+                        required
+                        id="cnpj"
+                        name="cnpj"
+                        label="CNPJ"
+                        type="number"
+                        defaultValue={linha.CNPJ}
+                      />
+                    </FormControl>
+                    <FormControl sx={{ width: '60ch' }}  >
+                      <TextField
 
-                  onChange={(e) => {
-                    setEmail(e.target.value)
-                  }}
-                  required
-                  id="email"
-                  name="email"
-                  label="Email"
-                  type="mail"
-                  defaultValue={linha.email}
-                />
-              </FormControl>
-              <div>
-                <FormControl sx={{ m: 1, width: '60ch' }}>
-                  <InputLabel id="checkbox-label">Declarações</InputLabel>
-                  <Select
-                    name="declaracoes"
-                    labelId="declaracoes-label"
-                    id="declaracoes"
-                    multiple
-                    value={declaracoes}
-                    onChange={handleChangeCheck}
-                    input={<OutlinedInput label="Declarações" />}
-                    renderValue={(selected) => selected.join(', ')}
-                    MenuProps={MenuProps}>
-                    {declaracao.map((row) => (
-                      <MenuItem key={row.id} value={row.nome}>
-                        <Checkbox checked={declaracoes.indexOf(row) > -1} />
-                        <ListItemText primary={row.nome} />
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
+                        onChange={(e) => {
+                          setEmail(e.target.value)
+                        }}
+                        required
+                        id="email"
+                        name="email"
+                        label="Email"
+                        type="mail"
+                        defaultValue={linha.email}
+                      />
+                    </FormControl>
+                    <div>
+                      <FormControl sx={{ m: 1, width: '60ch' }}>
+                        <InputLabel id="checkbox-label">Declarações</InputLabel>
+                        <Select
+                          name="declaracoes"
+                          labelId="declaracoes-label"
+                          id="declaracoes"
+                          multiple
+                          value={declaracoes}
+                          onChange={handleChangeCheck}
+                          input={<OutlinedInput label="Declarações" />}
+                          renderValue={(selected) => selected.join(', ')}
+                          MenuProps={MenuProps}>
+                          {declaracao.map((row) => (
+                            <MenuItem key={row.id} value={row.nome}>
+                              <Checkbox checked={declaracoes.indexOf(row) > -1} />
+                              <ListItemText primary={row.nome} />
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </div>
 
-            </Box>
+                  </Box>
 
-            <ButtonGroup
-              sx={{ m: 1, width: '10ch' }}
-              variant="contained"
-              color="success"
-              aria-label="outlined primary button group"
-            >
-              <Button onClick={submitEmpresa}>Atualizar</Button>
-            </ButtonGroup>
-            {alert ? <Alert align="right" onClick={() => {
-              setAlert(false);
-            }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></>}
-            <Box sx={{
-              position: "fixed",
-              bottom: 20,
-              right: { xs: "calc(50% - 25px)", md: 30 },
-            }}>
-              {loadingModal ? <CircularProgress /> : <></>}
-            </Box>
-          </Box>
-        </SytledModal>
-
-      </CardActions>
-    </Card>
+                  <ButtonGroup
+                    sx={{ m: 1, width: '10ch' }}
+                    variant="contained"
+                    color="success"
+                    aria-label="outlined primary button group"
+                  >
+                    <Button onClick={submitEmpresa}>Atualizar</Button>
+                  </ButtonGroup>
+                  {alert ? <Alert align="right" onClick={() => {
+                    setAlert(false);
+                  }} variant="outlined" severity={tipo}>{alertContent}</Alert> : <></>}
+                  <Box sx={{
+                    position: "fixed",
+                    bottom: 20,
+                    right: { xs: "calc(50% - 25px)", md: 30 },
+                  }}>
+                    {loadingModal ? <CircularProgress /> : <></>}
+                  </Box>
+                </Box>
+              </SytledModal>
+    </Box>
   );
 
 };

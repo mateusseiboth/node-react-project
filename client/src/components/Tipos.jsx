@@ -1,40 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { styled } from '@mui/material/styles';
 import {
-  Paper,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  tableCellClasses,
+  Typography,
+  Box,
+  Grid,
 } from "@mui/material";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
 const Post = () => {
   //busca tipos de declaração no node
   const [tipos, setTipos] = useState([]);
@@ -47,33 +21,27 @@ const Post = () => {
 
   //cria a página
   return (
-    <Card sx={{ margin: 1 }}>
-      <CardHeader
-        title="Tipos de declaração cadastrados"
-      />
-      <CardContent>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell align="center">ID</StyledTableCell>
-                <StyledTableCell align="center">Nome</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {tipos.map((row) => (
-                <StyledTableRow key={row.id}>
-                  <StyledTableCell align="center" name="id" value={row.id}>{row.id}</StyledTableCell>
-                  <StyledTableCell align="center">{row.nome}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </CardContent>
-      <CardActions disableSpacing>
-      </CardActions>
-    </Card>
+    <Box sx={{ ml: "5px" }} position="center">
+      <Typography align="center" variant="h3" component="div">
+        Tipos de declarações atualmente cadastrados
+      </Typography>
+      <Grid container spacing={1}>
+        {tipos.map((row) => (
+          <Grid item xs={6} md={4}>
+            <Card sx={{ margin: 1 }}>
+              <CardHeader
+                title={row.nome}
+              />
+              <CardContent>
+                <Typography key={row.id} sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  ID: {row.id}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 
 };
