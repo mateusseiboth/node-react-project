@@ -42,6 +42,7 @@ const db = mysql.createPool({
 });
 
 
+
 app.get('/api/v1/getUsers', (req, res) => {
     const sqlSelect = "SELECT username, id, nivel FROM usuario";
     db.query(sqlSelect, (err, result) => {
