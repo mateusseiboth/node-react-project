@@ -33,6 +33,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const [nivel, setNivel] = useState(true);
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('');
 
@@ -40,6 +41,7 @@ const Navbar = () => {
     axios.get(" /api/v1/login/").then(function(response){
       setUsername(response.data.user[0].username)
       setUserId(response.data.user[0].id)
+      setNivel(response.data.user[0].nivel)
     })
 }, [userId]) 
 
@@ -88,7 +90,14 @@ const Navbar = () => {
           <MenuItem component="a" href='/empresas'>Empresas</MenuItem>
           <MenuItem component="a" href='/'>Index</MenuItem>
         {/* Deve ser mostrado apenas ao admin */}
-        <MenuItem>Painel do admin</MenuItem>
+
+        {nivel ? (
+          <MenuItem>Painel do admin</MenuItem>
+        ) : (
+          
+          <></>
+        )}
+
         <MenuItem component="a" href="/sair">Logout</MenuItem>
       </Menu>
     </AppBar>
