@@ -25,7 +25,6 @@ const Post = () => {
     axios.post(" /api/v1/getDeclaracaoUser/", {
       id: userId
     }).then(function (response) {
-      console.log(response.data)
       setUserDeclaracoes(response.data)
     })
   }, [userId])

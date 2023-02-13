@@ -52,7 +52,7 @@ const Post = () => {
 
   //cria a página
   return (
-    <Box sx={{ maxWidth: 900, minHeight: "900px" }}>
+    <Box sx={{ maxWidth: 900, minHeight: "1fr" }}>
       <Grid container spacing={0.2}>
         <Grid item xs={4} md={4}>
           <Card align="center" variante="outlined" sx={{ miniHeight: 600 }}> 

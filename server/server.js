@@ -42,6 +42,7 @@ const db = mysql.createPool({
 });
 
 
+
 app.get('/api/v1/getUsers', (req, res) => {
     const sqlSelect = "SELECT username, id, nivel FROM usuario";
     db.query(sqlSelect, (err, result) => {
@@ -114,7 +115,6 @@ app.post('/api/v1/getDeclaracaoUser', (req, res) => {
   on d.empresa_id = e.id where usuario_id = ?;`;
     db.query(sqlSelect, [id], (err, result) => {
         if (result != "") {
-            console.log(result)
             res.send(result);
         }else{
             res.send(result);
@@ -281,7 +281,6 @@ app.post('/api/v1/login', (req, res) => {
 app.get('/api/v1/login', (req, res) => {
     if (req.session.user) {
         res.send({ loggedIn: true, user: req.session.user })
-        console.log(req.session.user)
     } else {
         res.send({ loggedIn: false })
     }
@@ -373,7 +372,6 @@ app.put('/api/v1/postAtualizaUser', (req, res) => {
     if (senha == '' || senha == null || senha == undefined) {
         const sqlInsert = "UPDATE usuario SET username = ?, nivel = ? WHERE id = ?";
         db.query(sqlInsert, [nome, nivel, id], (err, result) => {
-            console.log(result)
             if (result != undefined) {
                 res.send({
                     "result": true,
@@ -418,6 +416,6 @@ app.get('*', (req, res) => {
 })
 
 app.listen(8086, () => {
-    console.log('Mamando na porta 8086')
+    console.log('Rodando na porta 8086')
 
 })

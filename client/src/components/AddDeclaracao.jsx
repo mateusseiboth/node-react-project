@@ -34,7 +34,7 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
 
   useEffect(() => {
     axios.get(" /api/v1/login/").then(function(response){
-      console.log(response.data.user[0])
+     
       setUsername(response.data.user[0].username)
       setUserId(response.data.user[0].id)
   })
@@ -130,7 +130,6 @@ const Add = ({chaveDeclaracao, setChaveDeclaracao, setLoading, loading}) => {
     setUserId(userId)
     setUsername(username)
 
-    console.log(userId, username)
   }
 
 
